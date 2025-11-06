@@ -4,10 +4,13 @@ import './index.css'
 import './assets/fonts/montserrat.css'
 import './assets/fonts/pretendard.css'
 import './styles/global.css'
+import { ReactQueryProvider } from './lib/react-query'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <App />
+    <ReactQueryProvider>
+      <App />
+    </ReactQueryProvider>
   </StrictMode>,
 )
