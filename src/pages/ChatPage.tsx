@@ -1,25 +1,22 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
+import ChatComponent from "../components/chat/ChatComponent";
+import { chatPageWrapper } from "./ChatPage.css";
+
+interface ChatLocationState {
+  ingredients?: string[];
+  language?: string;
+}
 
 const ChatPage = () => {
+  const location = useLocation();
+  const state = (location.state ?? {}) as ChatLocationState;
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: "center",
-        padding: "32px 16px",
-      }}
-    >
-      <iframe
-        src="http://18.233.153.188:8501/"
-        width="100%"
-        height="800px"
-        style={{
-          border: "none",
-          borderRadius: "16px",
-          boxShadow: "0 8px 32px rgba(0, 0, 0, 0.12)",
-          maxWidth: "960px",
-        }}
-        title="AI Chatbot (Streamlit)"
+    <div className={chatPageWrapper}>
+      <ChatComponent
+        initialIngredients={state.ingredients}
+        initialLanguage={state.language}
       />
     </div>
   );
