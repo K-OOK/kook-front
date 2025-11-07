@@ -6,7 +6,7 @@ import IngredientInput from "../../components/Inputs/Ingredient/IngredientInput.
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
-  { rotation: -10.49, position: { top: "45%", right: "25%" } },
+  { rotation: -10.49, position: { top: "43%", right: "25%" } },
   { rotation: 11.98, position: { bottom: "30%", left: "25%" } },
 ];
 

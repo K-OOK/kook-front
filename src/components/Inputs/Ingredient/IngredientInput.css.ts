@@ -8,7 +8,7 @@ export const inputWrapper = style({
   backgroundColor: "white",
   border: "1px solid #EAEAEA",
   borderRadius: "0.75rem",
-  width: "calc(100% - 3rem)",
+  width: "calc(100%-3.1rem)",
 
   "@media": {
     "(max-width: 768px)": {

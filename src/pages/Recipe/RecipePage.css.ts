@@ -1,10 +1,10 @@
 import { style } from "@vanilla-extract/css";
 
 export const container = style({
-  minHeight: "100vh",
+  //minHeight: "100vh",
   display: "flex",
   flexDirection: "column",
-  padding: "2rem 1.25rem",
+  padding: "2rem 0",
   backgroundColor: "#ffffff",
   overflowY: "auto",
 });
@@ -53,7 +53,8 @@ export const potContainer = style({
 });
 
 export const potSvg = style({
-  width: "380px",
+  width: "280px",
+  height: "150px",
 
   "@media": {
     "(max-width: 768px)": {
@@ -84,7 +85,7 @@ export const ingredientTag = style({
 
 export const inputSection = style({
   width: "100%",
-  maxWidth: "500px",
+  // maxWidth: "500px",
   marginBottom: "2rem",
 });
 
@@ -129,7 +130,7 @@ export const cookButton = style({
   border: "none",
   borderRadius: "9999px",
   cursor: "pointer",
-  marginTop: "auto",
+  marginTop: "1.25rem",
   transition: "background-color 0.2s ease",
   fontFamily: "Montserrat",
   ":hover": {
