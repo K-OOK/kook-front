@@ -20,9 +20,7 @@ export const landingRoot = style({
   color: '#111111',
   display: 'flex',
   flexDirection: 'column',
-  padding: '32px 0px 40px',
-  gap: '10px',
-
+  padding: '0px 0px 40px',
 
 })
 
