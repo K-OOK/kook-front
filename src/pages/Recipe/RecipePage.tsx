@@ -5,6 +5,7 @@ import * as styles from "./RecipePage.css.ts";
 import IngredientInput from "../../components/Inputs/Ingredient/IngredientInput.tsx";
 import LoadingScreen from "../../components/Loading/LoadingScreen.tsx";
 import { motion } from "framer-motion";
+import SubmitBtn from "../../components/Buttons/SubmitBtn.tsx";
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
@@ -136,9 +137,7 @@ export default function RecipePage() {
         </div>
       </section>
 
-      <button className={styles.cookButton} onClick={handleSubmit}>
-        Let's KOOK!
-      </button>
+      <SubmitBtn onClick={handleSubmit} />
 
       <LoadingScreen isVisible={isLoading} />
     </main>
