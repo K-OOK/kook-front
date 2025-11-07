@@ -60,6 +60,12 @@ export const input = style({
   padding: "0.75rem 0",
   boxSizing: "border-box",
   background: "transparent",
+  fontWeight: "500",
+  selectors: {
+    "&::placeholder": {
+      color: "#b8b8b8ff",
+    },
+  },
 });
 
 export const langToggle = style({

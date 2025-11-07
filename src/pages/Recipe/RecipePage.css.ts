@@ -1,15 +1,15 @@
 import { style } from "@vanilla-extract/css";
 
 export const container = style({
-  maxWidth: "600px", // 최대 너비 600px 설정
-  width: "100%", // 전체 너비 사용
+  maxWidth: "600px",
+  width: "100%",
   display: "flex",
   flexDirection: "column",
   padding: "2rem 0",
   backgroundColor: "#ffffff",
-  overflowY: "scroll",
-  margin: "0 auto", // 중앙 정렬
+  margin: "0 auto",
   position: "relative",
+  overflowX: "hidden", // 가로 스크롤 방지
 });
 
 export const header = style({
@@ -43,16 +43,12 @@ export const subtitle = style({
 });
 
 export const potSection = style({
-  //marginBottom: "2rem",
-  //width: "100%",
   display: "flex",
   justifyContent: "center",
   position: "relative",
   zIndex: 1,
-  overflow: "visible",
   marginLeft: "-20px",
   marginRight: "-20px",
-  // 너비를 100% + 40px (좌우 20px씩)로 확장
   width: "calc(100% + 40px)",
 });
 
@@ -177,7 +173,7 @@ export const recipeCard = style({
 export const backBlue = style({
   position: "absolute",
   top: "-20px",
-  right: "-30px",
+  right: "0",
   width: "200px",
   height: "auto",
   zIndex: 0,
