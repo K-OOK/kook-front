@@ -1,6 +1,6 @@
 //import { useState } from "react";
 import "./App.css";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useLocation } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import RecipePage from "./pages/Recipe/RecipePage";
 import ResultPage from "./pages/ResultPage";
@@ -9,11 +9,13 @@ import Header from "./components/layout/Header";
 
 function App() {
   //const [count, setCount] = useState(0);
+  const location = useLocation();
+  const shouldShowHeader = location.pathname !== "/";
 
   return (
     <div className="app-wrapper">
       <div className="mobile-container">
-        <Header />
+        {shouldShowHeader && <Header />}
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/recipe" element={<RecipePage />} />

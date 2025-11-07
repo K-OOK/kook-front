@@ -1,6 +1,5 @@
 import { useState } from "react";
 import SplashScreen from "../components/landing/SplashScreen";
-import Header from "../components/common/Header";
 import landingRecipeImage from "../assets/landing_recipe.svg";
 import landingTrendingImage from "../assets/landing_trending.svg";
 import {
@@ -54,7 +53,6 @@ const LandingPage = () => {
       {showSplash && (
         <SplashScreen onComplete={() => setShowSplash(false)} />
       )}
-      <Header />
       <main className={landingContent}>
         <section className={heroSection}>
           <h1 className={heroTitle}>
