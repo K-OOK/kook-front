@@ -1,13 +1,13 @@
-import { useState } from "react";
+//import { useState } from "react";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import RecipePage from "./pages/RecipePage";
+import RecipePage from "./pages/Recipe/RecipePage";
 import ResultPage from "./pages/ResultPage";
 import TrendPage from "./pages/TrendPage";
 
 function App() {
-  const [count, setCount] = useState(0);
+  //const [count, setCount] = useState(0);
 
   return (
     <div className="app-wrapper">
