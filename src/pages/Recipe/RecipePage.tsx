@@ -104,6 +104,10 @@ export default function RecipePage() {
                     transform: `rotate(${config.rotation}deg)`,
                     ...config.position,
                     opacity: 1,
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                    maxWidth: "8ch",
                   }}
                 >
                   <span>{ingredient}</span>
