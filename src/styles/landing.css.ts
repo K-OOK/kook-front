@@ -269,9 +269,11 @@ export const ctaTitle = style({
   margin: 0,
   textAlign: 'left',
   whiteSpace: 'pre-line',
+  paddingTop: '6px',
   '@media': {
     'screen and (min-width: 600px)': {
       fontSize: '20px',
+      marginTop: '-25px',
     },
   },
 })
