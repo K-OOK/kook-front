@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import SplashScreen from "../components/landing/SplashScreen";
 import Header from "../components/layout/Header";
@@ -37,10 +37,7 @@ import {
   trendName,
 } from "../styles/landing.css";
 import type { HotRecipe } from "../types/hotRecipe";
-import {
-  DEFAULT_RANKING_IMAGE,
-  getRankingImage,
-} from "../utils/rankingImage";
+import { DEFAULT_RANKING_IMAGE, getRankingImage } from "../utils/rankingImage";
 
 const getRecipeDescription = (recipe: HotRecipe) => {
   const fallback = "준비 중";
@@ -54,7 +51,10 @@ const getRecipeDescription = (recipe: HotRecipe) => {
     return fallback;
   }
 
-  const plain = detail.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const plain = detail
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 
   if (!plain) {
     return fallback;
@@ -149,7 +149,9 @@ const LandingPage = () => {
     }
 
     const intervalId = window.setInterval(() => {
-      setCurrentRecipeIndex((prev) => (prev === recipes.length - 1 ? 0 : prev + 1));
+      setCurrentRecipeIndex((prev) =>
+        prev === recipes.length - 1 ? 0 : prev + 1
+      );
     }, 6000);
 
     return () => {
@@ -159,11 +161,12 @@ const LandingPage = () => {
 
   const currentRecipe = recipes[currentRecipeIndex];
 
+  const navigate = useNavigate();
+
+  console.log(recipes);
   return (
     <div className={landingRoot}>
-      {showSplash && (
-        <SplashScreen onComplete={() => setShowSplash(false)} />
-      )}
+      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
       {!showSplash && <Header />}
       <main className={landingContent}>
         <section className={heroSection}>
@@ -181,14 +184,20 @@ const LandingPage = () => {
               <h2 className={trendHeader}>Now trending</h2>
             </header>
 
-            {isLoading && <div className={trendSpinner} aria-label="Loading hot recipes" />}
+            {isLoading && (
+              <div className={trendSpinner} aria-label="Loading hot recipes" />
+            )}
 
             {isError && !isLoading && (
-              <p className={trendMessage}>Unable to load trending recipes. Please try again.</p>
+              <p className={trendMessage}>
+                Unable to load trending recipes. Please try again.
+              </p>
             )}
 
             {!isLoading && !isError && recipes.length === 0 && (
-              <p className={trendMessage}>Trending recipes will appear here soon.</p>
+              <p className={trendMessage}>
+                Trending recipes will appear here soon.
+              </p>
             )}
 
             {!isLoading && !isError && currentRecipe && (
@@ -201,7 +210,7 @@ const LandingPage = () => {
                   }
                   role={recipes.length > 1 ? "button" : undefined}
                   tabIndex={recipes.length > 1 ? 0 : undefined}
-                  onClick={recipes.length > 1 ? handleNextRecipe : undefined}
+                  onClick={() => navigate(`/trend/${currentRecipe.ranking}`)}
                   onKeyDown={(event) => {
                     if (recipes.length <= 1) {
                       return;
@@ -226,14 +235,16 @@ const LandingPage = () => {
                     alt={currentRecipe.recipe_name}
                     loading="lazy"
                   />
-              <div className={trendInfo}>
+                  <div className={trendInfo}>
                     <h3 className={trendName}>{currentRecipe.recipe_name}</h3>
-                    <p className={trendDescription}>{getRecipeDescription(currentRecipe)}</p>
-              </div>
-            </div>
+                    <p className={trendDescription}>
+                      {getRecipeDescription(currentRecipe)}
+                    </p>
+                  </div>
+                </div>
 
                 <div className={trendControls}>
-            <div className={trendIndicator}>
+                  <div className={trendIndicator}>
                     {recipes.map((recipe, index) => (
                       <button
                         key={`${recipe.ranking}-${recipe.recipe_name}`}
@@ -243,11 +254,16 @@ const LandingPage = () => {
                         aria-label={`View trending recipe ${recipe.recipe_name}`}
                         aria-pressed={index === currentRecipeIndex}
                       >
-                        <span className={index === currentRecipeIndex ? dotActive : dot} aria-hidden />
+                        <span
+                          className={
+                            index === currentRecipeIndex ? dotActive : dot
+                          }
+                          aria-hidden
+                        />
                       </button>
                     ))}
                   </div>
-            </div>
+                </div>
               </>
             )}
           </article>
