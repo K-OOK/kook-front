@@ -4,6 +4,8 @@ import "./index.css";
 import "./assets/fonts/montserrat.css";
 import "./assets/fonts/pretendard.css";
 import "./styles/global.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 import { ReactQueryProvider } from "./lib/react-query";
 import App from "./App.tsx";
 import { BrowserRouter } from "react-router-dom";

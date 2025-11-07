@@ -1,0 +1,121 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import * as s from "./RecipeDetail.css";
+import {
+  parseRecipeMarkup,
+  type ParsedRecipe,
+  type Section,
+} from "../../utils/recipeMarkup";
+import StepsCarousel, { type Step } from "./StepsCarousel";
+import IngredientIcon from "../../assets/ingredient-icon.svg";
+
+type Props = {
+  data: {
+    ranking: number;
+    recipe_name: string;
+    score: number;
+    recipe_detail_ko: string;
+    image_url?: string | null;
+    // recipe_detail_en 이 있으면 locale에 맞춰 쓰세요
+  };
+  locale?: "ko" | "en";
+};
+
+export default function RecipeDetail({ data, locale = "en" }: Props) {
+  const parsed: ParsedRecipe = parseRecipeMarkup(
+    locale === "ko" ? data.recipe_detail_ko : (data as any).recipe_detail_en
+  );
+
+  const ingredientsSec = parsed.sections.find((sec) => "ingredients" in sec) as
+    | Extract<Section, { ingredients: string[] }>
+    | undefined;
+
+  const stepsSec = parsed.sections.find((sec) => "steps" in sec) as
+    | Extract<Section, { steps: Step[] }>
+    | undefined;
+
+  const tipSec = parsed.sections.find((sec) => "tip" in sec) as any;
+  const recSec = parsed.sections.find((sec) => "recommendation" in sec) as any;
+
+  return (
+    <article className={s.wrap}>
+      <h1 className={s.h1}>{parsed.title}</h1>
+      <p className={s.sub}>
+        {/* 받아서 넣어줘야함 지금은 하드코딩 */}
+        Seaweed-wrapped rice rolls filled with vegetables, egg, and sometimes
+        meat or tuna.
+      </p>
+
+      <img
+        className={s.heroImg}
+        src={
+          data.image_url ??
+          "https://images.unsplash.com/photo-1604908176997-431621d9e1d1?q=80&w=1200&auto=format&fit=crop"
+        }
+        alt={data.recipe_name}
+      />
+
+      {/* Ingredients */}
+      {ingredientsSec && (
+        <section>
+          <div className={s.sectionTitleRow}>
+            <img src={IngredientIcon} />{" "}
+            {ingredientsSec.title.replace(/^\d+\.\s*/, "")}
+          </div>
+          <div className={s.card}>
+            <div className={s.chips}>
+              {ingredientsSec.ingredients.map((line, i) => {
+                const trimmed = line.trim();
+
+                // 숫자나 괄호 + 숫자로 시작하는 부분을 기준으로 나누기
+                const match = trimmed.match(/^(.*?)(\s*\(?\d.*)$/);
+                const name = match ? match[1].trim() : trimmed;
+                const amount = match
+                  ? match[2].trim().replace(/^\(|\)$/g, "")
+                  : "";
+
+                return (
+                  <div key={i} className={s.ingredientPair}>
+                    <span className={s.ingredientName}>{name}</span>
+                    {amount && (
+                      <span className={s.ingredientAmount}>{amount}</span>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Steps - react-slick 캐러셀 */}
+      {stepsSec && stepsSec.steps?.length > 0 && (
+        <section style={{ marginTop: 24, marginBottom: 24 }}>
+          <StepsCarousel steps={stepsSec.steps} />
+        </section>
+      )}
+
+      {/* Recommendation / Tip */}
+      {recSec && (
+        <section>
+          <div className={s.sectionTitleRow}>
+            {recSec.title.replace(/^\d+\.\s*/, "")}
+          </div>
+          <div className={s.card}>
+            {recSec.recommendation.map((r: string, i: number) => (
+              <div key={i}>• {r}</div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {tipSec && (
+        <section>
+          <div className={s.sectionTitleRow}>
+            {tipSec.title.replace(/^\d+\.\s*/, "") ?? "💡 Tip"}
+          </div>
+          <div className={s.card}>{tipSec.tip}</div>
+        </section>
+      )}
+    </article>
+  );
+}
