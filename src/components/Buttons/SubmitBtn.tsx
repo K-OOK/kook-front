@@ -1,7 +1,15 @@
-import React from "react";
+import * as styles from "./SubmitBtn.css.ts";
 
-const SubmitBtn = () => {
-  return <div></div>;
+interface SubmitBtnProps {
+  onClick: () => void;
+}
+
+const SubmitBtn = ({ onClick }: SubmitBtnProps) => {
+  return (
+    <button className={styles.cookButton} onClick={onClick}>
+      Let's KOOK!
+    </button>
+  );
 };
 
 export default SubmitBtn;
