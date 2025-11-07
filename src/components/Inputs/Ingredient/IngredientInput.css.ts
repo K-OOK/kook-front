@@ -8,7 +8,14 @@ export const inputWrapper = style({
   backgroundColor: "white",
   border: "1px solid #EAEAEA",
   borderRadius: "0.75rem",
-  width: "100%",
+  width: "calc(100% - 3rem)",
+
+  "@media": {
+    "(max-width: 768px)": {
+      padding: "1rem",
+      width: "calc(100% - 2rem)",
+    },
+  },
 });
 
 export const tagsContainer = style({

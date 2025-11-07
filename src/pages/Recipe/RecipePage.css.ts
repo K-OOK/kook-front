@@ -53,9 +53,14 @@ export const potContainer = style({
 });
 
 export const potSvg = style({
-  width: "280px",
-  height: "150px",
-  filter: "drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1))",
+  width: "380px",
+
+  "@media": {
+    "(max-width: 768px)": {
+      width: "280px",
+      height: "150px",
+    },
+  },
 });
 
 export const ingredientsList = style({
@@ -102,11 +107,11 @@ export const recipesGrid = style({
   gridTemplateColumns: "repeat(3, 1fr)",
   gap: "1rem",
   width: "100%",
-  "@media": {
-    "(max-width: 768px)": {
-      gridTemplateColumns: "repeat(2, 1fr)",
-    },
-  },
+  // "@media": {
+  //   "(max-width: 768px)": {
+  //     gridTemplateColumns: "repeat(2, 1fr)",
+  //   },
+  // },
 });
 
 export const recipeCard = style({
