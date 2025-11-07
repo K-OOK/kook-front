@@ -32,7 +32,7 @@ export const chatMessage = style({
 
 export const assistantMessage = style({
   alignSelf: "flex-start",
-  backgroundColor: "#262a3a",
+  backgroundColor: "white",
   color: "#ffffff",
   padding: "16px 20px",
   borderRadius: "18px",
@@ -59,6 +59,7 @@ export const userMessage = style({
   whiteSpace: "pre-wrap",
   wordBreak: "break-word",
   textAlign: "right",
+  marginBottom: "20px",
 });
 
 export const errorMessage = style({

@@ -88,7 +88,7 @@ export default function IngredientInput({
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Enter the materials you have!"
+          placeholder="Enter the materials you have! (up to 3)"
           className={styles.input}
           disabled={isMaxReached}
         />
