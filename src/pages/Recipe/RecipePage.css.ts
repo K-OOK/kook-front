@@ -11,7 +11,7 @@ export const container = style({
 
 export const header = style({
   textAlign: "center",
-  marginBottom: "2rem",
+  //marginBottom: "1rem",
   fontFamily: "Montserrat",
 });
 
