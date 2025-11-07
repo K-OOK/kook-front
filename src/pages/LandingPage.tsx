@@ -1,6 +1,6 @@
 import { useState } from "react";
 import SplashScreen from "../components/landing/SplashScreen";
-import Header from "../components/layout/Header";
+import Header from "../components/common/Header";
 import landingRecipeImage from "../assets/landing_recipe.svg";
 import landingTrendingImage from "../assets/landing_trending.svg";
 import {
