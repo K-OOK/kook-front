@@ -5,7 +5,7 @@ import axios from 'axios';
  * API 연결 시 사용
  */
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:3000/api',
+  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://18.233.153.188:8081',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

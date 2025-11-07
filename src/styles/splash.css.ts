@@ -3,10 +3,10 @@ import { style } from '@vanilla-extract/css'
 const gradient = 'linear-gradient(135deg, #C43D3D 0%, #4759E4 100%)'
 
 export const splashRoot = style({
-  position: 'fixed',
+  position: 'absolute',
   inset: 0,
   width: '100%',
-  height: '100vh',
+  height: '100%',
   backgroundColor: '#080808',
   color: '#FFFFFF',
   overflow: 'hidden',
@@ -14,6 +14,16 @@ export const splashRoot = style({
   flexDirection: 'column',
   justifyContent: 'flex-start',
   padding: '150px 20px',
+  zIndex: 10,
+  left: '-20px',
+  right: '-20px',
+  '@media': {
+    'screen and (min-width: 600px)': {
+      padding: '150px 40px',
+      left: '-40px',
+      right: '-40px',
+    },
+  },
 })
 
 export const guidelines = style({

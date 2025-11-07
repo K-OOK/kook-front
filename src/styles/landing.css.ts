@@ -1,17 +1,29 @@
-import { style } from '@vanilla-extract/css'
+import { keyframes, style } from '@vanilla-extract/css'
 import { fontFamilies, fontWeights } from './fonts.css'
 
+const ctaIllustrationWiggle = keyframes({
+  '0%': { transform: 'rotate(0deg) translate3d(0, 0, 0)' },
+  '20%': { transform: 'rotate(4deg) translate3d(1px, -2px, 0)' },
+  '40%': { transform: 'rotate(-3deg) translate3d(-2px, 1px, 0)' },
+  '60%': { transform: 'rotate(3deg) translate3d(1px, -1px, 0)' },
+  '80%': { transform: 'rotate(-2deg) translate3d(-1px, 1px, 0)' },
+  '100%': { transform: 'rotate(0deg) translate3d(0, 0, 0)' },
+})
+
 export const landingRoot = style({
+  position: 'relative',
   width: '100%',
   boxSizing: 'border-box',
   minWidth: '320px',
-  minHeight: '100%',
+  minHeight: '100vh',
   backgroundColor: '#FFFFFF',
   color: '#111111',
   display: 'flex',
   flexDirection: 'column',
-  padding: '32px 0 40px',
+  padding: '32px 0px 40px',
   gap: '10px',
+
+
 })
 
 export const landingContent = style({
@@ -72,10 +84,17 @@ export const trendMain = style({
 })
 
 export const trendImage = style({
-  width: '140px',
-  height: '120px',
+  width: '120px',
+  height: '104px',
   borderRadius: '6px',
   flexShrink: 0,
+  objectFit: 'cover',
+  '@media': {
+    'screen and (min-width: 600px)': {
+      width: '140px',
+      height: '120px',
+    },
+  },
 })
 
 export const trendInfo = style({
@@ -135,46 +154,125 @@ export const dotActive = style([
 
 export const ctaGrid = style({
   display: 'grid',
-  gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: '20px',
+  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+  gap: '16px',
+  columnGap: '16px',
+  rowGap: '16px',
+  '@media': {
+    'screen and (max-width: 480px)': {
+      gridTemplateColumns: 'repeat(2, minmax(140px, 1fr))',
+      gap: '12px',
+    },
+  },
 })
 
 export const ctaCard = style({
   backgroundColor: '#F5F5F5',
   color: '#171717',
   borderRadius: '13px',
-  padding: '28px 24px',
+  padding: '24px 20px',
   display: 'flex',
   flexDirection: 'column',
-  alignItems: 'center',
-  gap: '16px',
-  height: '232px',
-  textAlign: 'right',
+  alignItems: 'stretch',
+  gap: '14px',
+  height: '226px',
   justifyContent: 'space-between',
+  '@media': {
+    'screen and (min-width: 600px)': {
+      padding: '28px 24px',
+      gap: '16px',
+      height: '232px',
+    },
+  },
+})
+
+export const ctaCardTop = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'flex-end',
+  gap: '12px',
+})
+
+export const ctaIllustrationWrapper = style({
+  width: '100%',
+  display: 'flex',
+  justifyContent: 'center',
 })
 
 export const ctaIllustration = style({
   display: 'block',
-  width: '132px',
-  height: '132px',
+  width: '110px',
+  height: '110px',
   objectFit: 'contain',
+  transformOrigin: 'center',
+  transition: 'transform 0.25s ease-out, filter 0.3s ease-out',
+  willChange: 'transform',
+  selectors: {
+    '&:hover': {
+      animation: `${ctaIllustrationWiggle} 0.9s ease-in-out infinite`,
+      filter: 'drop-shadow(0 8px 24px rgba(196, 61, 61, 0.25))',
+      transform: 'scale(1.03)',
+      color: '#C43D3D',
+    },
+    '&:focus-visible': {
+      animation: `${ctaIllustrationWiggle} 0.9s ease-in-out infinite`,
+      filter: 'drop-shadow(0 8px 24px rgba(196, 61, 61, 0.25))',
+      transform: 'scale(1.03)',
+      color: '#C43D3D',
+    },
+    '&:active': {
+      animation: `${ctaIllustrationWiggle} 0.6s ease-in-out`,
+      filter: 'drop-shadow(0 4px 16px rgba(196, 61, 61, 0.3))',
+      transform: 'scale(0.97)',
+      color: '#C43D3D',
+    },
+  },
+  '@media': {
+    'screen and (min-width: 480px)': {
+      width: '118px',
+      height: '118px',
+    },
+    'screen and (min-width: 600px)': {
+      width: '145px',
+      height: '145px',
+    },
+    '(prefers-reduced-motion: reduce)': {
+      transition: 'none',
+      selectors: {
+        '&:hover': { animation: 'none', filter: 'none', transform: 'none' },
+        '&:focus-visible': { animation: 'none', filter: 'none', transform: 'none' },
+        '&:active': { animation: 'none', filter: 'none', transform: 'none' },
+      },
+    },
+  },
 })
 
 export const ctaEyebrow = style({
   fontFamily: fontFamilies.pretendard,
   fontWeight: fontWeights.semiBold,
-  fontSize: '11px',
+  fontSize: '10px',
   letterSpacing: '0.04em',
-  textTransform: 'uppercase',
   color: '#C5C5C5',
   textAlign: 'right',
+  whiteSpace: 'pre-line',
+  '@media': {
+    'screen and (min-width: 600px)': {
+      fontSize: '11px',
+    },
+  },
 })
 
 export const ctaTitle = style({
   fontFamily: fontFamilies.montserrat,
   fontWeight: fontWeights.semiBold,
-  fontSize: '20px',
+  fontSize: '18px',
   margin: 0,
   textAlign: 'left',
+  whiteSpace: 'pre-line',
+  '@media': {
+    'screen and (min-width: 600px)': {
+      fontSize: '20px',
+    },
+  },
 })
 
