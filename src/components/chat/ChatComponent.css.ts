@@ -9,8 +9,8 @@ export const chatContainer = style({
   margin: "0 auto",
   backgroundColor: "#ffffff",
   borderRadius: "24px",
-  boxShadow: "0 16px 36px rgba(38, 42, 58, 0.12)",
-  border: "1px solid rgba(38, 42, 58, 0.08)",
+  //boxShadow: "0 16px 36px rgba(38, 42, 58, 0.12)",
+  //border: "1px solid rgba(38, 42, 58, 0.08)",
   minHeight: "calc(100vh - 160px)",
   overflow: "hidden",
 });
@@ -47,8 +47,7 @@ export const assistantMessage = style({
 export const userMessage = style({
   alignSelf: "flex-end",
   marginLeft: "auto",
-  background:
-    "linear-gradient(135deg, rgba(35, 87, 227, 1) 0%, rgba(82, 132, 255, 1) 100%)",
+  background: "black",
   color: "#ffffff",
   padding: "14px 18px",
   borderRadius: "18px",
@@ -96,7 +95,7 @@ export const inputField = style({
   transition: "border 0.2s ease, box-shadow 0.2s ease",
   selectors: {
     "&:focus": {
-      border: "1px solid #5568ff",
+      border: "black",
       boxShadow: "0 0 0 3px rgba(85, 104, 255, 0.15)",
       backgroundColor: "#ffffff",
     },
@@ -115,8 +114,7 @@ export const sendButton = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  background:
-    "linear-gradient(135deg, rgba(35, 87, 227, 1) 0%, rgba(82, 132, 255, 1) 100%)",
+  background: "black",
   boxShadow: "0 8px 16px rgba(68, 105, 255, 0.35)",
   cursor: "pointer",
   transition: "transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease",

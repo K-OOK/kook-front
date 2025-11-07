@@ -85,7 +85,9 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
   if (message.role === "user") {
     return (
       <div className={styles.userMessage}>
-        <p>{message.content}</p>
+        <p>
+          Please tell me a Korean recipe that can be made with {message.content}
+        </p>
       </div>
     );
   }
@@ -366,7 +368,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
         {isLoading ? (
           <div className={cn(chatMessage, typingIndicator)}>
-            답변 생성 중...
+            Generating answer...
           </div>
         ) : null}
 
@@ -381,8 +383,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           onChange={(event) => setInputValue(event.target.value)}
           placeholder={
             isLoading
-              ? "응답을 기다리는 중이에요..."
-              : "재료 혹은 질문을 입력해 주세요."
+              ? "Waiting for a response..."
+              : "Please enter your material or question."
           }
           disabled={isLoading}
         />
