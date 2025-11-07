@@ -1,11 +1,7 @@
 import axios from 'axios';
 
-/**
- * Axios 인스턴스 생성
- * API 연결 시 사용
- */
 export const apiClient = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL || 'http://18.233.153.188:8081',
+  baseURL: import.meta.env.VITE_API_BASE_URL ?? '',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',

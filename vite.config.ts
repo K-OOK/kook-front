@@ -9,5 +9,12 @@ export default defineConfig({
     host: true, // '0.0.0.0'과 동일 → 같은 네트워크에서 접근 가능
     port: 5173, // 필요시 변경
     // open: true,     // 자동 오픈 원하면
+    proxy: {
+      "/api": {
+        target: "http://18.233.153.188:8081",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
   },
 });
