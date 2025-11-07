@@ -1,16 +1,19 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import './assets/fonts/montserrat.css'
-import './assets/fonts/pretendard.css'
-import './styles/global.css'
-import { ReactQueryProvider } from './lib/react-query'
-import App from './App.tsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+import "./assets/fonts/montserrat.css";
+import "./assets/fonts/pretendard.css";
+import "./styles/global.css";
+import { ReactQueryProvider } from "./lib/react-query";
+import App from "./App.tsx";
+import { BrowserRouter } from "react-router-dom";
 
-createRoot(document.getElementById('root')!).render(
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ReactQueryProvider>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </ReactQueryProvider>
-  </StrictMode>,
-)
+  </StrictMode>
+);
