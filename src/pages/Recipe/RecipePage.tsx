@@ -1,11 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import * as styles from "./RecipePage.css.ts";
 import IngredientInput from "../../components/Inputs/Ingredient/IngredientInput.tsx";
 import LoadingScreen from "../../components/Loading/LoadingScreen.tsx";
 import { motion } from "framer-motion";
 import SubmitBtn from "../../components/Buttons/SubmitBtn.tsx";
+import { apiClient } from "../../lib/axios";
+import type { TopIngredient } from "../../types/topIngredient";
+import HotIngredientsList from "../../components/recipe/HotIngredientsList";
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
@@ -18,10 +22,58 @@ export default function RecipePage() {
   const [isClosing, setIsClosing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleAddIngredient = (ingredient: string) => {
-    if (ingredients.length < 3 && ingredient.trim()) {
-      setIngredients((prev) => [...prev, ingredient.trim()]);
+  const {
+    data: topIngredients,
+    isLoading: isLoadingTopIngredients,
+    isError: isErrorTopIngredients,
+  } = useQuery<TopIngredient[]>({
+    queryKey: ["topIngredients"],
+    queryFn: async () => {
+      const response = await apiClient.get<TopIngredient[]>("/api/top-ingredients");
+      return response.data;
+    },
+    staleTime: 1000 * 60,
+  });
+
+  const quantityFormatter = useMemo(() => new Intl.NumberFormat("en-US"), []);
+
+  const addIngredient = useCallback((value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return;
     }
+
+    setIngredients((prev) => {
+      if (prev.length >= 3 || prev.some((item) => item.toLowerCase() === trimmed.toLowerCase())) {
+        return prev;
+      }
+      return [...prev, trimmed];
+    });
+  }, []);
+
+  const toggleHotIngredient = useCallback((value: string) => {
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return;
+    }
+
+    setIngredients((prev) => {
+      const lower = trimmed.toLowerCase();
+      const existingIndex = prev.findIndex((item) => item.toLowerCase() === lower);
+      if (existingIndex !== -1) {
+        return prev.filter((_, index) => index !== existingIndex);
+      }
+
+      if (prev.length >= 3) {
+        return prev;
+      }
+
+      return [...prev, trimmed];
+    });
+  }, []);
+
+  const handleAddIngredient = (ingredient: string) => {
+    addIngredient(ingredient);
   };
 
   const handleRemoveIngredient = (index: number) => {
@@ -29,6 +81,12 @@ export default function RecipePage() {
   };
 
   const handleSubmit = () => {
+    const mobileContainer = document.querySelector(".mobile-container");
+    if (mobileContainer instanceof HTMLElement) {
+      mobileContainer.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     console.log(ingredients);
     setIsClosing(true);
     setTimeout(() => {
@@ -130,11 +188,14 @@ export default function RecipePage() {
 
       <section className={styles.hotSection}>
         <h2 className={styles.hotTitle}>🔥 Hot Ingredients</h2>
-        <div className={styles.recipesGrid}>
-          <div className={styles.recipeCard} />
-          <div className={styles.recipeCard} />
-          <div className={styles.recipeCard} />
-        </div>
+        <HotIngredientsList
+          ingredients={topIngredients ?? []}
+          isLoading={isLoadingTopIngredients}
+          isError={isErrorTopIngredients}
+          selectedIngredients={ingredients}
+          onToggle={toggleHotIngredient}
+          formatQuantity={(value: number) => quantityFormatter.format(value)}
+        />
       </section>
 
       <SubmitBtn onClick={handleSubmit} />
