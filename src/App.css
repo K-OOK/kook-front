@@ -13,8 +13,9 @@
   min-width: 320px; /* 최소 너비는 min-width */
   height: 100dvh;
   background: #ffffff;
-  overflow: hidden;
+  overflow: scroll;
   position: relative;
+  padding: 0 20px;
 }
 
 /* PC 화면에서 스케일 조정 */
@@ -25,8 +26,9 @@
     background: #ffffff;
     border: 1px solid #ddd;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
+    overflow: scroll;
     margin: 0 auto;
     position: relative;
+    padding: 0 20px;
   }
 }
