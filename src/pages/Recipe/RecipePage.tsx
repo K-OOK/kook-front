@@ -17,6 +17,7 @@ export default function RecipePage() {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [locale, setLocale] = useState<"ko" | "en">("ko");
 
   const handleAddIngredient = (ingredient: string) => {
     if (ingredients.length < 3 && ingredient.trim()) {
@@ -29,7 +30,8 @@ export default function RecipePage() {
   };
 
   const handleSubmit = () => {
-    console.log(ingredients);
+    console.log("Selected language:", locale);
+    console.log("Ingredients:", ingredients);
     setIsClosing(true);
     setTimeout(() => {
       setIsLoading(true);
@@ -125,6 +127,8 @@ export default function RecipePage() {
           ingredients={ingredients}
           onRemoveIngredient={handleRemoveIngredient}
           maxIngredients={3}
+          locale={locale}
+          onLocaleChange={setLocale}
         />
       </section>
 

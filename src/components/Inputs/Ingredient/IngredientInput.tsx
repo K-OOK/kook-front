@@ -9,6 +9,8 @@ interface IngredientInputProps {
   ingredients: string[];
   onRemoveIngredient: (index: number) => void;
   maxIngredients: number;
+  locale: "ko" | "en";
+  onLocaleChange: (locale: "ko" | "en") => void;
 }
 
 export default function IngredientInput({
@@ -16,6 +18,8 @@ export default function IngredientInput({
   ingredients,
   onRemoveIngredient,
   maxIngredients,
+  locale,
+  onLocaleChange,
 }: IngredientInputProps) {
   const [input, setInput] = useState("");
 
@@ -56,6 +60,32 @@ export default function IngredientInput({
         className={styles.input}
         disabled={isMaxReached}
       />
+      <button
+        className={styles.langToggle}
+        type="button"
+        aria-pressed={locale === "ko"}
+        onClick={() => onLocaleChange(locale === "ko" ? "en" : "ko")}
+      >
+        <span
+          className={styles.langToggleOption}
+          data-active={locale === "ko" ? "true" : "false"}
+        >
+          kor
+        </span>
+        <span
+          className={styles.langToggleOption}
+          data-active={locale === "en" ? "true" : "false"}
+        >
+          eng
+        </span>
+        <div
+          className={styles.langToggleSlider}
+          aria-hidden
+          style={{
+            left: locale === "ko" ? "4px" : "calc(50% + 4px)",
+          }}
+        />
+      </button>
     </div>
   );
 }

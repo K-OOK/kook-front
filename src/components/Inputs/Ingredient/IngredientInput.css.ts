@@ -8,6 +8,7 @@ export const inputWrapper = style({
   border: "1px solid #EAEAEA",
   borderRadius: "0.75rem",
   width: "calc(100%-3.1rem)",
+  position: "relative",
 
   "@media": {
     "(max-width: 768px)": {
@@ -71,4 +72,57 @@ export const input = style({
     color: "#999999",
     cursor: "not-allowed",
   },
+});
+
+export const langToggle = style({
+  position: "absolute",
+  top: "50%",
+  right: "1.5rem",
+  transform: "translateY(-50%)",
+  display: "flex",
+  alignItems: "center",
+  padding: "4px",
+  width: "120px",
+  height: "40px",
+  backgroundColor: "#111827",
+  borderRadius: "999px",
+  border: "none",
+  cursor: "pointer",
+  color: "#fff",
+  boxSizing: "border-box",
+  zIndex: 10,
+  "@media": {
+    "(max-width: 768px)": {
+      right: "1rem",
+    },
+  },
+});
+
+export const langToggleOption = style({
+  position: "relative",
+  zIndex: 1,
+  width: "50%",
+  padding: "8px 0",
+  textAlign: "center",
+  fontSize: "16px",
+  fontWeight: 700,
+  color: "#ffffff99",
+  userSelect: "none",
+  selectors: {
+    "&[data-active='true']": {
+      color: "#000000",
+    },
+  },
+});
+
+export const langToggleSlider = style({
+  position: "absolute",
+  top: "4px",
+  width: "calc(50% - 8px)",
+  height: "calc(100% - 8px)",
+  backgroundColor: "#ffffff",
+  borderRadius: "999px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+  zIndex: 0,
+  transition: "left 0.2s ease",
 });
