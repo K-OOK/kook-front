@@ -39,12 +39,8 @@ export default function RecipeDetail({ data, locale = "en" }: Props) {
 
   return (
     <article className={s.wrap}>
-      <h1 className={s.h1}>{parsed.title}</h1>
-      <p className={s.sub}>
-        {/* 받아서 넣어줘야함 지금은 하드코딩 */}
-        Seaweed-wrapped rice rolls filled with vegetables, egg, and sometimes
-        meat or tuna.
-      </p>
+      <h1 className={s.h1}>{data.recipe_name}</h1>
+      <p className={s.sub}>{data.description}</p>
 
       <img
         className={s.heroImg}

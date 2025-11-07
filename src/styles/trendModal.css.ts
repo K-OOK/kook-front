@@ -200,4 +200,3 @@ export const modalPrimaryButton = style({
   justifyContent: "center",
   cursor: "pointer",
 });
-

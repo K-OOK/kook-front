@@ -16,7 +16,6 @@ export const trendRoot = style({
 export const trendHeader = style({
   display: "flex",
   flexDirection: "column",
-
 });
 
 export const trendTitle = style({
@@ -51,6 +50,7 @@ export const card = style({
   alignItems: "flex-end",
   isolation: "isolate",
   boxShadow: "0 12px 24px rgba(0, 0, 0, 0.15)",
+  cursor: "pointer",
 });
 
 export const cardImage = style({
