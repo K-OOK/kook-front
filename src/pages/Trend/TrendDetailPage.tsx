@@ -17,18 +17,27 @@ const sample = {
 
 export default function TrendDetailPage() {
   const { ranking } = useParams<{ ranking: string }>();
-  console.log(ranking);
-  const { data, isLoading, isError } = useQuery<HotRecipeDetail[]>({
-    queryKey: ["hotRecipesdetail"],
+  const rankingNum = Number(ranking);
+
+  const { data, isLoading, isError, error } = useQuery<HotRecipeDetail>({
+    queryKey: ["hotRecipesdetail", rankingNum], // 파라미터를 키에 포함
     queryFn: async () => {
-      const response = await apiClient.get<HotRecipeDetail[]>(
-        `/api/hot-recipes/detail?ranking=${ranking}`
+      const res = await apiClient.get<HotRecipeDetail>(
+        "/api/hot-recipes/detail",
+        { params: { ranking: rankingNum } } // params로 전달
       );
-      return response.data;
+      return res.data;
     },
   });
 
+  if (!Number.isFinite(rankingNum)) {
+    return <div>잘못된 접근입니다: ranking 파라미터가 없습니다.</div>;
+  }
+  if (isLoading) return <div>Loading…</div>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  if (isError) return <div>불러오기 실패: {(error as any)?.message ?? ""}</div>;
+
   console.log(data);
 
-  return <RecipeDetail data={data[0]} locale="en" />;
+  return <RecipeDetail data={data || sample} locale="en" />;
 }
