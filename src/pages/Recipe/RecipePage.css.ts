@@ -106,7 +106,7 @@ export const inputSection = style({
 
 export const hotSection = style({
   width: "100%",
-  marginBottom: "2rem",
+  marginBottom: "4rem",
   position: "relative",
   zIndex: 1,
 });
