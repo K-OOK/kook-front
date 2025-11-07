@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import RecipePage from "./pages/Recipe/RecipePage";
 import ResultPage from "./pages/ResultPage";
 import TrendPage from "./pages/TrendPage";
+import ChatPage from "./pages/ChatPage";
 import Header from "./components/layout/Header";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/recipe" element={<RecipePage />} />
           <Route path="/recipe/result" element={<ResultPage />} />
           <Route path="/trend" element={<TrendPage />} />
+          <Route path="/chat" element={<ChatPage />} />
         </Routes>
       </div>
     </div>
