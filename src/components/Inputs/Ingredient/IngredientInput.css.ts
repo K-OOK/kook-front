@@ -1,113 +1,88 @@
 import { style } from "@vanilla-extract/css";
 
-export const inputWrapper = style({
+export const container = style({
+  width: "100%",
   display: "flex",
   flexDirection: "column",
-  padding: "1.5rem",
-  backgroundColor: "white",
-  border: "1px solid #EAEAEA",
-  borderRadius: "0.75rem",
-  width: "calc(100%-3.1rem)",
-  position: "relative",
+  gap: "0.5rem",
+  boxSizing: "border-box",
+  fontFamily: "Pretendard",
+});
 
-  "@media": {
-    "(max-width: 768px)": {
-      padding: "1rem",
-    },
-  },
+export const topRow = style({
+  display: "flex",
+  justifyContent: "flex-end", // 오른쪽에 배치
+  alignItems: "center",
+  padding: "0 0.5rem",
+});
+
+export const inputWrapper = style({
+  background: "#fff",
+  borderRadius: "12px",
+  padding: "0.75rem",
+  boxShadow: "0 1px 0 rgba(0,0,0,0.04)",
+  border: "1px solid #eee",
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.75rem",
 });
 
 export const tagsContainer = style({
   display: "flex",
+  gap: "0.5rem",
   flexWrap: "wrap",
-  columnGap: "0.5rem",
-  //minHeight: "2rem",
 });
 
 export const ingredientChip = style({
+  background: "#111",
+  color: "#fff",
+  padding: "0.4rem 0.6rem",
+  borderRadius: "8px",
   display: "inline-flex",
   alignItems: "center",
   gap: "0.5rem",
-  padding: "0.375rem 0.75rem",
-  borderRadius: "0.25rem",
-  fontSize: "0.875rem",
-  fontWeight: "600",
-  marginBottom: "0.75rem",
-  backgroundColor: "#1a1a1a",
-  color: "white",
-  transition: "opacity 0.2s ease",
 });
 
 export const removeBtn = style({
-  background: "none",
+  background: "transparent",
   border: "none",
-  color: "white",
+  color: "#fff",
   cursor: "pointer",
-  fontSize: "1.25rem",
-  padding: "0",
-  margin: "0 -0.25rem 0 0.25rem",
-  lineHeight: "1",
-  transition: "opacity 0.2s ease",
-  ":hover": {
-    opacity: "0.7",
-  },
+  padding: 0,
+  lineHeight: 1,
 });
 
 export const input = style({
-  fontSize: "1rem",
-  fontFamily: "pretendard",
-  fontWeight: "500",
+  width: "100%",
   border: "none",
-  backgroundColor: "white",
-  color: "#1a1a1a",
   outline: "none",
-  transition: "border-color 0.2s ease",
-  "::placeholder": {
-    color: "#C1C1C1",
-  },
-  ":focus": {
-    borderColor: "#666666",
-  },
-  ":disabled": {
-    color: "#999999",
-    cursor: "not-allowed",
-  },
+  fontSize: "1rem",
+  padding: "0.75rem 0",
+  boxSizing: "border-box",
+  background: "transparent",
 });
 
 export const langToggle = style({
-  position: "absolute",
-  top: "50%",
-  right: "1.5rem",
-  transform: "translateY(-50%)",
-  display: "flex",
+  position: "relative",
+  display: "inline-flex",
   alignItems: "center",
+  width: "92px",
+  height: "34px",
   padding: "4px",
-  width: "120px",
-  height: "40px",
-  backgroundColor: "#111827",
   borderRadius: "999px",
+  backgroundColor: "#111",
   border: "none",
   cursor: "pointer",
-  color: "#fff",
   boxSizing: "border-box",
-  zIndex: 10,
-  "@media": {
-    "(max-width: 768px)": {
-      right: "1rem",
-    },
-  },
 });
 
 export const langToggleOption = style({
-  position: "relative",
-  zIndex: 1,
-  width: "50%",
-  padding: "8px 0",
+  flex: 1,
   textAlign: "center",
-  fontSize: "16px",
+  zIndex: 2,
+  fontSize: "14px",
   fontWeight: 700,
   color: "#ffffff99",
-  userSelect: "none",
   selectors: {
     "&[data-active='true']": {
       color: "#000000",
@@ -118,11 +93,11 @@ export const langToggleOption = style({
 export const langToggleSlider = style({
   position: "absolute",
   top: "4px",
+  left: "4px",
   width: "calc(50% - 8px)",
   height: "calc(100% - 8px)",
-  backgroundColor: "#ffffff",
+  backgroundColor: "#fff",
   borderRadius: "999px",
-  boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
-  zIndex: 0,
-  transition: "left 0.2s ease",
+  transition: "left 0.28s cubic-bezier(.2,.9,.2,1)",
+  zIndex: 1,
 });
