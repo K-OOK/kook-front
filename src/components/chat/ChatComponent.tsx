@@ -13,15 +13,15 @@ import {
   assistantMessage,
   chatContainer,
   chatMessage,
-  errorMessage,
   inputField,
   inputForm,
   messagesBox,
   sendButton,
   sendIcon,
   typingIndicator,
-  userMessage,
 } from "./ChatComponent.css";
+import { parseRecipeMarkup, type ParsedRecipe } from "../../utils/recipeMarkup";
+import * as styles from "./ChatComponent.css";
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(
@@ -52,28 +52,116 @@ const mapLanguage = (language?: string): string => {
   return normalized;
 };
 
-const ChatBubble: React.FC<{ message: ChatMessage }> = ({ message }) => {
-  if (message.role === "error") {
+// 컴포넌트명 충돌 방지: MessageItem으로 변경
+const MessageItem = ({ message }: { message: ChatMessage }) => {
+  const prevContentRef = useRef<string>("");
+  const [parsedContent, setParsedContent] = useState<ParsedRecipe | null>(null);
+
+  useEffect(() => {
+    if (
+      message.role !== "assistant" ||
+      message.content === prevContentRef.current
+    ) {
+      return;
+    }
+
+    prevContentRef.current = message.content;
+
+    // 불완전한 XML도 파싱 시도 (임시 닫기 태그 추가)
+    try {
+      const content = message.content.endsWith("</recipe>")
+        ? message.content
+        : `${message.content}</recipe>`;
+
+      const parsed = parseRecipeMarkup(content);
+      setParsedContent(parsed);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      // 파싱 실패시 null로 설정 (실시간 스트리밍 중일 수 있음)
+      setParsedContent(null);
+    }
+  }, [message.content]);
+
+  if (message.role === "user") {
     return (
-      <div className={cn(chatMessage, errorMessage)}>
-        {message.content || "문제가 발생했어요. 잠시 후 다시 시도해주세요."}
+      <div className={styles.userMessage}>
+        <p>{message.content}</p>
       </div>
     );
   }
 
   if (message.role === "assistant") {
+    // 파싱 성공한 경우 구조화된 형태로 표시
+    if (parsedContent) {
+      return (
+        <div className={styles.recipeMessage}>
+          {parsedContent.title && (
+            <h3 className={styles.recipeTitle}>{parsedContent.title}</h3>
+          )}
+
+          {parsedContent.sections.map((section, idx) => (
+            <div key={idx} className={styles.recipeSection}>
+              <h4 className={styles.sectionTitle}>{section.title}</h4>
+
+              {"ingredients" in section && (
+                <div className={styles.ingredientList}>
+                  {section.ingredients.map((ingredient, i) => (
+                    <div key={i} className={styles.ingredientItem}>
+                      {ingredient}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {"steps" in section && (
+                <div className={styles.stepList}>
+                  {section.steps.map((step, i) => (
+                    <div key={i} className={styles.stepItem}>
+                      <div className={styles.stepName}>{step.name}</div>
+                      <p className={styles.stepDescription}>
+                        {step.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {"recommendation" in section && (
+                <div className={styles.recommendationList}>
+                  {section.recommendation.map((item, i) => (
+                    <div key={i}>{item}</div>
+                  ))}
+                </div>
+              )}
+
+              {"tip" in section && (
+                <div className={styles.tipBox}>
+                  <p className={styles.tipContent}>{section.tip}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // 파싱 실패시(또는 파싱 대기 중) 실시간 텍스트 출력
     return (
-      <div className={cn(chatMessage, assistantMessage)}>
-        <pre>{message.content || "..."}</pre>
+      <div className={styles.assistantMessage}>
+        <p>{message.content}</p>
       </div>
     );
   }
 
-  return (
-    <div className={cn(chatMessage, userMessage)}>
-      <p>{message.content}</p>
-    </div>
-  );
+  if (message.role === "error") {
+    return (
+      <div className={styles.errorMessage}>
+        <p>{message.content}</p>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 const buildChatHistoryPayload = (
@@ -273,7 +361,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         ) : null}
 
         {messages.map((message) => (
-          <ChatBubble key={message.id} message={message} />
+          <MessageItem key={message.id} message={message} />
         ))}
 
         {isLoading ? (
