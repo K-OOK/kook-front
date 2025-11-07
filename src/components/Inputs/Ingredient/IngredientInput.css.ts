@@ -13,7 +13,6 @@ export const inputWrapper = style({
   "@media": {
     "(max-width: 768px)": {
       padding: "1rem",
-      width: "calc(100% - 2rem)",
     },
   },
 });
@@ -29,13 +28,14 @@ export const ingredientChip = style({
   display: "inline-flex",
   alignItems: "center",
   gap: "0.5rem",
-  backgroundColor: "#1a1a1a",
-  color: "white",
   padding: "0.375rem 0.75rem",
   borderRadius: "0.25rem",
   fontSize: "0.875rem",
   fontWeight: "600",
   marginBottom: "0.75rem",
+  backgroundColor: "#1a1a1a",
+  color: "white",
+  transition: "opacity 0.2s ease",
 });
 
 export const removeBtn = style({

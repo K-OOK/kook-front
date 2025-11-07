@@ -37,6 +37,10 @@ import {
   modalTimeChip,
 } from "../../styles/trendModal.css";
 import { useNavigate } from "react-router-dom";
+import {
+  DEFAULT_RANKING_IMAGE,
+  getRankingImage,
+} from "../../utils/rankingImage";
 
 interface TrendRecipeModalProps {
   recipe: HotRecipe;
@@ -190,7 +194,10 @@ const TrendRecipeModal = ({ recipe, onClose }: TrendRecipeModalProps) => {
 
         <img
           className={modalHeroImage}
-          src={recipe.image_url ?? ""}
+          src={getRankingImage(
+            recipe.ranking,
+            recipe.image_url ?? DEFAULT_RANKING_IMAGE
+          )}
           alt={recipe.recipe_name}
           loading="lazy"
         />

@@ -120,16 +120,52 @@ export const hotTitle = style({
   fontFamily: "Montserrat",
 });
 
-export const recipesGrid = style({
+export const hotList = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.75rem",
+  padding: 0,
+  margin: 0,
+  listStyle: "none",
+});
+
+export const hotListItem = style({
   display: "grid",
-  gridTemplateColumns: "repeat(3, 1fr)",
-  gap: "1rem",
-  width: "100%",
-  // "@media": {
-  //   "(max-width: 768px)": {
-  //     gridTemplateColumns: "repeat(2, 1fr)",
-  //   },
-  // },
+  gridTemplateColumns: "48px 1fr",
+  alignItems: "center",
+  gap: "0.75rem",
+  padding: "0.85rem 1rem",
+  backgroundColor: "#f7f7f7",
+  borderRadius: "0.9rem",
+  boxShadow: "0 6px 14px rgba(0, 0, 0, 0.05)",
+});
+
+export const hotRanking = style({
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  width: "48px",
+  height: "48px",
+  borderRadius: "12px",
+  background: "linear-gradient(135deg, #ff7f57 0%, #ff4f81 100%)",
+  color: "#ffffff",
+  fontFamily: "Montserrat",
+  fontWeight: "700",
+  fontSize: "1.05rem",
+});
+
+export const hotContent = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.25rem",
+});
+
+export const hotName = style({
+  fontFamily: "Montserrat",
+  fontWeight: "600",
+  fontSize: "1rem",
+  color: "#1a1a1a",
+  margin: 0,
 });
 
 export const recipeCard = style({

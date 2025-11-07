@@ -20,6 +20,7 @@ import {
   trendTitle,
 } from "../styles/trend.css";
 import type { HotRecipe } from "../types/hotRecipe";
+import { getRankingImage, DEFAULT_RANKING_IMAGE } from "../utils/rankingImage";
 
 const getRecipeDescription = (recipe: HotRecipe) => {
   const fallback = "준비 중";
@@ -40,7 +41,7 @@ const getRecipeDescription = (recipe: HotRecipe) => {
     return fallback;
   }
 
-  return plain.length > 90 ? `${plain.slice(0, 87)}...` : plain;
+  return plain;
 };
 
 const getCookTimeLabel = (recipe: HotRecipe) => {
@@ -143,7 +144,10 @@ const TrendPage = () => {
             >
               <img
                 className={cardImage}
-                src={recipe.image_url ?? ""}
+                src={getRankingImage(
+                  recipe.ranking,
+                  recipe.image_url ?? DEFAULT_RANKING_IMAGE
+                )}
                 alt={recipe.recipe_name}
                 loading="lazy"
               />
