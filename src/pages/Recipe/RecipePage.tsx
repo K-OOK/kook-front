@@ -6,6 +6,8 @@ import IngredientInput from "../../components/Inputs/Ingredient/IngredientInput.
 import LoadingScreen from "../../components/Loading/LoadingScreen.tsx";
 import { motion } from "framer-motion";
 import SubmitBtn from "../../components/Buttons/SubmitBtn.tsx";
+import backBlue from "../../assets/back-blue.svg";
+import backRed from "../../assets/back-red.svg";
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
@@ -39,14 +41,16 @@ export default function RecipePage() {
   };
 
   return (
-    <main className={styles.container}>
+    <main className={` ${styles.container}`}>
       <header className={styles.header}>
         <h1 className={styles.title}>
           Cook Korean food <br /> with the ingredients you have.
         </h1>
       </header>
 
-      <section className={styles.potSection}>
+      <section className={`${styles.potSection} `}>
+        <img src={backBlue} alt="" className={styles.backBlue} />
+        <img src={backRed} alt="" className={styles.backRed} />
         <div className={styles.potContainer}>
           <svg
             width="276"

@@ -39,3 +39,8 @@
 ::-webkit-scrollbar {
   display: none;
 }
+
+/* app.css 맨 아래에 추가 */
+.mobile-container.edge-to-edge {
+  padding-inline: 0; /* 좌우 패딩 제거 */
+}
