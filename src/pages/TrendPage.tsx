@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiClient } from "../lib/axios";
 import TrendRecipeModal from "../components/trend/TrendRecipeModal";
-import timer from "../assets/timer.svg";
+import timerWhite from "../assets/timer-white.svg";
 import {
   card,
   cardBody,
@@ -158,7 +158,7 @@ const TrendPage = () => {
                   {getRecipeDescription(recipe)}
                 </p>
                 <span className={cardMeta}>
-                  <img src={timer} alt="" aria-hidden={true} />{" "}
+                  <img src={timerWhite} alt="" aria-hidden={true} />{" "}
                   {getCookTimeLabel(recipe)}
                 </span>
               </div>
