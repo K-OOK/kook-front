@@ -23,12 +23,19 @@ import type { HotRecipe } from "../types/hotRecipe";
 
 const getRecipeDescription = (recipe: HotRecipe) => {
   const fallback = "준비 중";
-  const detail = recipe.description ?? recipe.recipe_detail_en ?? recipe.recipe_detail_ko ?? "";
+  const detail =
+    recipe.description ??
+    recipe.recipe_detail_en ??
+    recipe.recipe_detail_ko ??
+    "";
   if (!detail) {
     return fallback;
   }
 
-  const plain = detail.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+  const plain = detail
+    .replace(/<[^>]+>/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
   if (!plain) {
     return fallback;
   }
@@ -62,6 +69,7 @@ const TrendPage = () => {
       return response.data;
     },
   });
+  console.log(data);
 
   const [selectedRecipe, setSelectedRecipe] = useState<HotRecipe | null>(null);
 
@@ -101,10 +109,14 @@ const TrendPage = () => {
         <p className={trendSubtitle}>Cook the hottest Korean food right now!</p>
       </header>
 
-      {isLoading && <div className={spinner} aria-label="Loading hot recipes" />}
+      {isLoading && (
+        <div className={spinner} aria-label="Loading hot recipes" />
+      )}
 
       {isError && (
-        <p className={emptyState}>Unable to load trending recipes. Please try again.</p>
+        <p className={emptyState}>
+          Unable to load trending recipes. Please try again.
+        </p>
       )}
 
       {!isLoading && !isError && recipes.length === 0 && (
@@ -129,13 +141,21 @@ const TrendPage = () => {
               aria-haspopup="dialog"
               aria-label={`View details for ${recipe.recipe_name}`}
             >
-              <img className={cardImage} src={recipe.image_url ?? ""} alt={recipe.recipe_name} loading="lazy" />
+              <img
+                className={cardImage}
+                src={recipe.image_url ?? ""}
+                alt={recipe.recipe_name}
+                loading="lazy"
+              />
               <div className={cardOverlay} aria-hidden={true} />
               <div className={cardBody}>
                 <h3 className={cardName}>{recipe.recipe_name}</h3>
-                <p className={cardDescription}>{getRecipeDescription(recipe)}</p>
+                <p className={cardDescription}>
+                  {getRecipeDescription(recipe)}
+                </p>
                 <span className={cardMeta}>
-                  <img src={timer} alt="" aria-hidden={true} /> {getCookTimeLabel(recipe)}
+                  <img src={timer} alt="" aria-hidden={true} />{" "}
+                  {getCookTimeLabel(recipe)}
                 </span>
               </div>
             </article>
@@ -143,7 +163,9 @@ const TrendPage = () => {
         </section>
       )}
 
-      {selectedRecipe && <TrendRecipeModal recipe={selectedRecipe} onClose={handleCloseModal} />}
+      {selectedRecipe && (
+        <TrendRecipeModal recipe={selectedRecipe} onClose={handleCloseModal} />
+      )}
     </div>
   );
 };

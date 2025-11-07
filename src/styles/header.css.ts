@@ -16,4 +16,5 @@ export const brandCluster = style({
 export const logoMark = style({
   width: "36px",
   height: "36px",
+  cursor: "pointer",
 });
