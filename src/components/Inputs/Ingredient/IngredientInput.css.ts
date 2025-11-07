@@ -3,12 +3,11 @@ import { style } from "@vanilla-extract/css";
 export const inputWrapper = style({
   display: "flex",
   flexDirection: "column",
-  gap: "0.75rem",
   padding: "1.5rem",
   backgroundColor: "white",
   border: "1px solid #EAEAEA",
   borderRadius: "0.75rem",
-  width: "calc(100% - 3rem)",
+  width: "calc(100%-3.1rem)",
 
   "@media": {
     "(max-width: 768px)": {
@@ -35,6 +34,7 @@ export const ingredientChip = style({
   borderRadius: "0.25rem",
   fontSize: "0.875rem",
   fontWeight: "600",
+  marginBottom: "0.75rem",
 });
 
 export const removeBtn = style({
