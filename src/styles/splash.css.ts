@@ -3,17 +3,17 @@ import { style } from '@vanilla-extract/css'
 const gradient = 'linear-gradient(135deg, #C43D3D 0%, #4759E4 100%)'
 
 export const splashRoot = style({
-  position: 'relative',
-  width: 'calc(100% + 40px)',
-  height: '100%',
-  left: '-20px',
+  position: 'fixed',
+  inset: 0,
+  width: '100%',
+  height: '100vh',
   backgroundColor: '#080808',
   color: '#FFFFFF',
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  padding: '150px 48px'
+  padding: '150px 20px',
 })
 
 export const guidelines = style({

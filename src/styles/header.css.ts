@@ -5,13 +5,11 @@ export const headerRoot = style({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'space-between',
-  padding: '24px 0',
 })
 
 export const brandCluster = style({
   display: 'flex',
   alignItems: 'center',
-  gap: '8px',
 })
 
 export const logoMark = style({
