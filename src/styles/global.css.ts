@@ -15,7 +15,6 @@ globalStyle('body', {
   WebkitFontSmoothing: 'antialiased',
   MozOsxFontSmoothing: 'grayscale',
   margin: 0,
-  padding: '0 20px',
   boxSizing: 'border-box',
   overflowX: 'auto',
 });
