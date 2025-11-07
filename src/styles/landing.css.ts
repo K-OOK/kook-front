@@ -1,4 +1,4 @@
-import { keyframes, style } from '@vanilla-extract/css'
+import { globalStyle, keyframes, style } from '@vanilla-extract/css'
 import { fontFamilies, fontWeights } from './fonts.css'
 
 const ctaIllustrationWiggle = keyframes({
@@ -8,6 +8,11 @@ const ctaIllustrationWiggle = keyframes({
   '60%': { transform: 'rotate(3deg) translate3d(1px, -1px, 0)' },
   '80%': { transform: 'rotate(-2deg) translate3d(-1px, 1px, 0)' },
   '100%': { transform: 'rotate(0deg) translate3d(0, 0, 0)' },
+})
+
+const trendSpinnerKeyframes = keyframes({
+  '0%': { transform: 'rotate(0deg)' },
+  '100%': { transform: 'rotate(360deg)' },
 })
 
 export const landingRoot = style({
@@ -81,6 +86,24 @@ export const trendMain = style({
   alignItems: 'flex-start',
 })
 
+export const trendMainInteractive = style({
+  cursor: 'pointer',
+  transition: 'transform 0.2s ease-out',
+  selectors: {
+    '&:hover': {
+      transform: 'translateY(-2px) scale(1.01)',
+    },
+    '&:focus-visible': {
+      outline: '2px solid #FFFFFF',
+      outlineOffset: '4px',
+      transform: 'translateY(-1px) scale(1.005)',
+    },
+    '&:active': {
+      transform: 'scale(0.995)',
+    },
+  },
+})
+
 export const trendImage = style({
   width: '120px',
   height: '104px',
@@ -117,14 +140,9 @@ export const trendDescription = style({
   fontFamily: fontFamilies.pretendard,
   fontWeight: fontWeights.semiBold,
   color: '#909090',
-  lineHeight: 1.2,
-  opacity: 0.72,
+  lineHeight: 1.4,
+  opacity: 0.82,
   margin: '3px 0 0 0',
-  overflow: 'hidden',
-  textOverflow: 'ellipsis',
-  display: '-webkit-box',
-  WebkitLineClamp: 4,
-  WebkitBoxOrient: 'vertical',
 })
 
 export const trendIndicator = style({
@@ -132,6 +150,54 @@ export const trendIndicator = style({
   gap: '8px',
   justifyContent: 'center',
   marginTop: 'auto',
+})
+
+export const trendIndicatorButton = style({
+  border: 'none',
+  background: 'transparent',
+  padding: 0,
+  cursor: 'pointer',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  transition: 'opacity 0.2s ease',
+  opacity: 0.7,
+  selectors: {
+    '&:hover': { opacity: 1 },
+    '&:focus-visible': {
+      outline: '2px solid #FFFFFF',
+      outlineOffset: '4px',
+      opacity: 1,
+    },
+    '&:active': { opacity: 1 },
+  },
+})
+
+export const trendControls = style({
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  gap: '12px',
+  marginTop: '18px',
+})
+
+export const trendSpinner = style({
+  width: '32px',
+  height: '32px',
+  borderRadius: '50%',
+  border: '3px solid rgba(255, 255, 255, 0.2)',
+  borderTopColor: '#FFFFFF',
+  animation: `${trendSpinnerKeyframes} 0.9s linear infinite`,
+  margin: '12px auto 0',
+})
+
+export const trendMessage = style({
+  fontFamily: fontFamilies.pretendard,
+  fontWeight: fontWeights.semiBold,
+  fontSize: '14px',
+  color: '#B5B5B5',
+  textAlign: 'center',
+  margin: '24px 0 0 0',
 })
 
 export const dot = style({
@@ -175,11 +241,27 @@ export const ctaCard = style({
   gap: '14px',
   height: '226px',
   justifyContent: 'space-between',
+  cursor: 'pointer',
+  textDecoration: 'none',
+  transition: 'transform 0.2s ease-out, box-shadow 0.2s ease-out',
+  boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
   '@media': {
     'screen and (min-width: 600px)': {
       padding: '28px 24px',
       gap: '16px',
       height: '232px',
+    },
+  },
+  selectors: {
+    '&:hover': {
+      boxShadow: '0 12px 24px rgba(17, 17, 17, 0.08)',
+    },
+    '&:focus-visible': {
+      outline: '2px solid #111111',
+      outlineOffset: '4px',
+    },
+    '&:active': {
+      transform: 'scale(0.99)',
     },
   },
 })
@@ -203,26 +285,20 @@ export const ctaIllustration = style({
   height: '110px',
   objectFit: 'contain',
   transformOrigin: 'center',
-  transition: 'transform 0.25s ease-out, filter 0.3s ease-out',
+  transition: 'transform 0.25s ease-out',
   willChange: 'transform',
   selectors: {
     '&:hover': {
       animation: `${ctaIllustrationWiggle} 0.9s ease-in-out infinite`,
-      filter: 'drop-shadow(0 8px 24px rgba(196, 61, 61, 0.25))',
       transform: 'scale(1.03)',
-      color: '#C43D3D',
     },
     '&:focus-visible': {
       animation: `${ctaIllustrationWiggle} 0.9s ease-in-out infinite`,
-      filter: 'drop-shadow(0 8px 24px rgba(196, 61, 61, 0.25))',
       transform: 'scale(1.03)',
-      color: '#C43D3D',
     },
     '&:active': {
       animation: `${ctaIllustrationWiggle} 0.6s ease-in-out`,
-      filter: 'drop-shadow(0 4px 16px rgba(196, 61, 61, 0.3))',
       transform: 'scale(0.97)',
-      color: '#C43D3D',
     },
   },
   '@media': {
@@ -237,9 +313,9 @@ export const ctaIllustration = style({
     '(prefers-reduced-motion: reduce)': {
       transition: 'none',
       selectors: {
-        '&:hover': { animation: 'none', filter: 'none', transform: 'none' },
-        '&:focus-visible': { animation: 'none', filter: 'none', transform: 'none' },
-        '&:active': { animation: 'none', filter: 'none', transform: 'none' },
+        '&:hover': { animation: 'none', transform: 'none' },
+        '&:focus-visible': { animation: 'none', transform: 'none' },
+        '&:active': { animation: 'none', transform: 'none' },
       },
     },
   },
@@ -272,6 +348,39 @@ export const ctaTitle = style({
     'screen and (min-width: 600px)': {
       fontSize: '20px',
       marginTop: '-25px',
+    },
+  },
+})
+
+globalStyle(`.${ctaCard}:hover .${ctaIllustration}`, {
+  animation: `${ctaIllustrationWiggle} 0.9s ease-in-out infinite`,
+  transform: 'scale(1.03)',
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      animation: 'none',
+      transform: 'none',
+    },
+  },
+})
+
+globalStyle(`.${ctaCard}:focus-visible .${ctaIllustration}`, {
+  animation: `${ctaIllustrationWiggle} 0.9s ease-in-out infinite`,
+  transform: 'scale(1.03)',
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      animation: 'none',
+      transform: 'none',
+    },
+  },
+})
+
+globalStyle(`.${ctaCard}:active .${ctaIllustration}`, {
+  animation: `${ctaIllustrationWiggle} 0.6s ease-in-out`,
+  transform: 'scale(0.97)',
+  '@media': {
+    '(prefers-reduced-motion: reduce)': {
+      animation: 'none',
+      transform: 'none',
     },
   },
 })
