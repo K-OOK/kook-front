@@ -5,6 +5,7 @@ import LandingPage from "./pages/LandingPage";
 import RecipePage from "./pages/Recipe/RecipePage";
 import ResultPage from "./pages/ResultPage";
 import TrendPage from "./pages/TrendPage";
+import Header from "./components/layout/Header";
 
 function App() {
   //const [count, setCount] = useState(0);
@@ -12,6 +13,7 @@ function App() {
   return (
     <div className="app-wrapper">
       <div className="mobile-container">
+        <Header />
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/recipe" element={<RecipePage />} />
