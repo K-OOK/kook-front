@@ -1,6 +1,8 @@
 import { useState } from "react";
 import SplashScreen from "../components/landing/SplashScreen";
 import Header from "../components/layout/Header";
+import landingRecipeImage from "../assets/landing_recipe.svg";
+import landingTrendingImage from "../assets/landing_trending.svg";
 import {
   ctaCard,
   ctaEyebrow,
@@ -15,7 +17,6 @@ import {
   heroTitle,
   landingContent,
   landingRoot,
-  sectionLabel,
   trendCard,
   trendDescription,
   trendHeader,
@@ -38,13 +39,15 @@ const LandingPage = () => {
       id: "personal",
       eyebrow: "Cook Korean food with the ingredients you have.",
       title: "Your own K-recipe",
-      icon: "🍲",
+      image: landingRecipeImage,
+      alt: "Illustration of Korean sauce bottle",
     },
     {
       id: "trending",
       eyebrow: "Check out the latest trending Korean recipes.",
       title: "Trending Recipes",
-      icon: "🥢",
+      image: landingTrendingImage,
+      alt: "Illustration of bowl with chopsticks",
     },
   ];
 
@@ -53,7 +56,6 @@ const LandingPage = () => {
       <Header />
       <main className={landingContent}>
         <section className={heroSection}>
-          <span className={sectionLabel}>Discover</span>
           <h1 className={heroTitle}>
             <span>Enjoy your</span>
             <span className={heroLine}>
@@ -93,12 +95,12 @@ const LandingPage = () => {
           {ctaItems.map((item) => (
             <article key={item.id} className={ctaCard}>
               <span className={ctaEyebrow}>{item.eyebrow}</span>
-              <div>
-                <span className={ctaIllustration} role="img" aria-hidden>
-                  {item.icon}
-                </span>
-                <h3 className={ctaTitle}>{item.title}</h3>
-              </div>
+              <img
+                className={ctaIllustration}
+                src={item.image}
+                alt={item.alt}
+              />
+              <h3 className={ctaTitle}>{item.title}</h3>
             </article>
           ))}
         </section>

@@ -31,7 +31,8 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     overflow: scroll;
     margin: 0 auto;
-    /* padding: 0 20px; */
+    position: relative;
+    padding: 0 40px;
   }
 }
 

@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css'
+import { fontFamilies, fontWeights } from './fonts.css'
 
 export const landingRoot = style({
   width: '100%',
@@ -10,13 +11,12 @@ export const landingRoot = style({
   display: 'flex',
   flexDirection: 'column',
   padding: '32px 0 40px',
-  gap: '32px',
+  gap: '10px',
 })
 
 export const landingContent = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '32px',
   flex: 1,
 })
 
@@ -30,9 +30,11 @@ export const heroTitle = style({
   display: 'flex',
   flexDirection: 'column',
   gap: '6px',
+  fontFamily: fontFamilies.montserrat,
+  fontWeight: fontWeights.semiBold,
   fontSize: '32px',
-  lineHeight: 1.1,
-  fontWeight: 700,
+  lineHeight: 'normal',
+  letterSpacing: '-0.04em',
 })
 
 export const heroLine = style({
@@ -45,74 +47,88 @@ export const heroEmoji = style({
   fontSize: '28px',
 })
 
-export const sectionLabel = style({
-  fontSize: '14px',
-  fontWeight: 600,
-  letterSpacing: '0.08em',
-  textTransform: 'uppercase',
-  color: '#6B6B6B',
-})
-
 export const trendCard = style({
   backgroundColor: '#111111',
+  height: '220px',
   color: '#FFFFFF',
-  borderRadius: '24px',
-  padding: '24px',
+  borderRadius: '13px',
+  padding: '10px 26px 20px 26px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '20px',
+  gap: '8px',
+  marginBottom: '20px',
 })
 
 export const trendHeader = style({
-  fontSize: '18px',
-  fontWeight: 600,
+  fontFamily: fontFamilies.montserrat,
+  fontWeight: fontWeights.semiBold,
+  fontSize: '20px',
 })
 
 export const trendMain = style({
   display: 'flex',
-  gap: '16px',
+  gap: '20px',
+  alignItems: 'flex-start',
 })
 
 export const trendImage = style({
-  width: '96px',
-  height: '96px',
-  borderRadius: '16px',
-  objectFit: 'cover',
+  width: '140px',
+  height: '120px',
+  borderRadius: '6px',
+  flexShrink: 0,
 })
 
 export const trendInfo = style({
   display: 'flex',
   flexDirection: 'column',
-  gap: '8px',
+  gap: '4px',
+  minWidth: 0,
 })
 
 export const trendName = style({
-  fontSize: '20px',
-  fontWeight: 700,
+  fontSize: '15px',
+  fontFamily: fontFamilies.pretendard,
+  fontWeight: fontWeights.semiBold,
+  margin: 0,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  whiteSpace: 'nowrap',
 })
 
 export const trendDescription = style({
   fontSize: '14px',
-  lineHeight: 1.4,
-  opacity: 0.82,
+  fontFamily: fontFamilies.pretendard,
+  fontWeight: fontWeights.semiBold,
+  color: '#909090',
+  lineHeight: 1.2,
+  opacity: 0.72,
+  margin: '3px 0 0 0',
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  display: '-webkit-box',
+  WebkitLineClamp: 4,
+  WebkitBoxOrient: 'vertical',
 })
 
 export const trendIndicator = style({
   display: 'flex',
   gap: '8px',
   justifyContent: 'center',
+  marginTop: 'auto',
 })
 
 export const dot = style({
-  width: '10px',
-  height: '10px',
-  borderRadius: '50%',
-  backgroundColor: 'rgba(255, 255, 255, 0.24)',
+  width: '8px',
+  height: '8px',
+  borderRadius: '9999px',
+  backgroundColor: '#5F5F5F',
+  transition: 'all 0.2s ease',
 })
 
 export const dotActive = style([
   dot,
   {
+    width: '20px',
     backgroundColor: '#FFFFFF',
   },
 ])
@@ -120,38 +136,45 @@ export const dotActive = style([
 export const ctaGrid = style({
   display: 'grid',
   gridTemplateColumns: 'repeat(2, 1fr)',
-  gap: '16px',
+  gap: '20px',
 })
 
 export const ctaCard = style({
   backgroundColor: '#F5F5F5',
-  borderRadius: '24px',
-  padding: '24px 18px',
+  color: '#171717',
+  borderRadius: '13px',
+  padding: '28px 24px',
   display: 'flex',
   flexDirection: 'column',
-  gap: '14px',
+  alignItems: 'center',
+  gap: '16px',
+  height: '232px',
+  textAlign: 'right',
   justifyContent: 'space-between',
-  minHeight: '160px',
 })
 
 export const ctaIllustration = style({
-  display: 'inline-flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  width: '48px',
-  height: '48px',
-  fontSize: '32px',
+  display: 'block',
+  width: '132px',
+  height: '132px',
+  objectFit: 'contain',
 })
 
 export const ctaEyebrow = style({
-  fontSize: '12px',
+  fontFamily: fontFamilies.pretendard,
+  fontWeight: fontWeights.semiBold,
+  fontSize: '11px',
   letterSpacing: '0.04em',
   textTransform: 'uppercase',
-  color: '#8D8D8D',
+  color: '#C5C5C5',
+  textAlign: 'right',
 })
 
 export const ctaTitle = style({
-  fontSize: '18px',
-  fontWeight: 600,
+  fontFamily: fontFamilies.montserrat,
+  fontWeight: fontWeights.semiBold,
+  fontSize: '20px',
+  margin: 0,
+  textAlign: 'left',
 })
 
