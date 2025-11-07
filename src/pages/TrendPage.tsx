@@ -23,7 +23,7 @@ import type { HotRecipe } from "../types/hotRecipe";
 import { getRankingImage, DEFAULT_RANKING_IMAGE } from "../utils/rankingImage";
 
 const getRecipeDescription = (recipe: HotRecipe) => {
-  const fallback = "준비 중";
+  const fallback = "4-5days";
   const detail =
     recipe.description ??
     recipe.recipe_detail_en ??
@@ -47,7 +47,7 @@ const getRecipeDescription = (recipe: HotRecipe) => {
 const getCookTimeLabel = (recipe: HotRecipe) => {
   const raw = recipe.cook_time ?? recipe.cook_time_minutes;
   if (raw == null || `${raw}`.trim() === "") {
-    return "준비 중";
+    return "4-5days";
   }
 
   if (typeof raw === "number") {

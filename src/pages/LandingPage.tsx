@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import SplashScreen from "../components/landing/SplashScreen";
-import Header from "../components/layout/Header";
 import landingRecipeImage from "../assets/landing_recipe.svg";
 import landingTrendingImage from "../assets/landing_trending.svg";
 import { apiClient } from "../lib/axios";
@@ -40,7 +38,7 @@ import type { HotRecipe } from "../types/hotRecipe";
 import { DEFAULT_RANKING_IMAGE, getRankingImage } from "../utils/rankingImage";
 
 const getRecipeDescription = (recipe: HotRecipe) => {
-  const fallback = "준비 중";
+  const fallback = "4-5days";
   const detail =
     recipe.description ??
     recipe.recipe_detail_en ??
@@ -64,7 +62,6 @@ const getRecipeDescription = (recipe: HotRecipe) => {
 };
 
 const LandingPage = () => {
-  const [showSplash, setShowSplash] = useState(true);
   const [currentRecipeIndex, setCurrentRecipeIndex] = useState(0);
 
   const { data, isLoading, isError } = useQuery<HotRecipe[]>({
@@ -166,8 +163,6 @@ const LandingPage = () => {
   console.log(recipes);
   return (
     <div className={landingRoot}>
-      {showSplash && <SplashScreen onComplete={() => setShowSplash(false)} />}
-      {!showSplash && <Header />}
       <main className={landingContent}>
         <section className={heroSection}>
           <h1 className={heroTitle}>

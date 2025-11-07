@@ -11,7 +11,7 @@ const Header = () => {
           src={logoAsset}
           alt="Kook"
           className={logoMark}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/landing")}
         />
       </div>
     </header>

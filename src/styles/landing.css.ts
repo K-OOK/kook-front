@@ -143,6 +143,10 @@ export const trendDescription = style({
   lineHeight: 1.4,
   opacity: 0.82,
   margin: '3px 0 0 0',
+  display: '-webkit-box',
+  WebkitBoxOrient: 'vertical',
+  WebkitLineClamp: 5,
+  overflow: 'hidden',
 })
 
 export const trendIndicator = style({

@@ -15,42 +15,19 @@ export const splashRoot = style({
   justifyContent: "flex-start",
   padding: "150px 20px",
   zIndex: 10,
-  left: "-20px",
-  right: "-20px",
+
+
   fontFamily: "Montserrat", // 모든 텍스트에 Montserrat 적용
   "@media": {
     "screen and (min-width: 600px)": {
       padding: "150px 40px",
-      left: "-40px",
-      right: "-40px",
+     
     },
   },
 });
 
 export const guidelines = style({
-  position: "absolute",
-  inset: 0,
-  pointerEvents: "none",
-  selectors: {
-    "&::before": {
-      content: "",
-      position: "absolute",
-      left: "32px",
-      top: 0,
-      bottom: 0,
-      width: "1px",
-      background: "rgba(255, 255, 255, 0.08)",
-    },
-    "&::after": {
-      content: "",
-      position: "absolute",
-      right: "32px",
-      top: 0,
-      bottom: 0,
-      width: "1px",
-      background: "rgba(255, 255, 255, 0.08)",
-    },
-  },
+  display: "none",
 });
 
 export const content = style({

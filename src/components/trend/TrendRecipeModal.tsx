@@ -82,7 +82,7 @@ const TrendRecipeModal = ({ recipe, onClose }: TrendRecipeModalProps) => {
 
   console.log(data);
 
-  const fallbackLabel = "준비 중";
+  const fallbackLabel = "4-5days";
 
   const description = useMemo(() => {
     const detail =
