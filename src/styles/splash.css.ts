@@ -6,13 +6,14 @@ export const splashRoot = style({
   position: 'relative',
   width: 'calc(100% + 40px)',
   height: '100%',
+  left: '-20px',
   backgroundColor: '#080808',
   color: '#FFFFFF',
   overflow: 'hidden',
   display: 'flex',
   flexDirection: 'column',
   justifyContent: 'flex-start',
-  padding: '150px 20px 48px'
+  padding: '150px 48px'
 })
 
 export const guidelines = style({

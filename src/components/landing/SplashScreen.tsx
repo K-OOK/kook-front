@@ -13,7 +13,7 @@ import {
   stackedColumn,
   stackedItem,
   title,
-} from './splash.css'
+} from '../../styles/splash.css.ts'
 
 const switchInterval = 1100
 const brandDelay = 900

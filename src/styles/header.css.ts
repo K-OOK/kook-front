@@ -18,9 +18,3 @@ export const logoMark = style({
   width: '36px',
   height: '36px',
 })
-
-export const brandName = style({
-  fontWeight: 600,
-  fontSize: '16px',
-  letterSpacing: '0.08em',
-})
