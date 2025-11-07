@@ -20,4 +20,5 @@ export const cookButton = style({
   ":hover": {
     backgroundColor: "#333333",
   },
+  zIndex: 2,
 });

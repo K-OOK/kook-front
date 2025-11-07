@@ -9,12 +9,15 @@ export const container = style({
   backgroundColor: "#ffffff",
   overflowY: "scroll",
   margin: "0 auto", // 중앙 정렬
+  position: "relative",
 });
 
 export const header = style({
   textAlign: "center",
   //marginBottom: "1rem",
   fontFamily: "Montserrat",
+  position: "relative",
+  zIndex: 1,
 });
 
 export const logo = style({
@@ -41,9 +44,16 @@ export const subtitle = style({
 
 export const potSection = style({
   //marginBottom: "2rem",
-  width: "100%",
+  //width: "100%",
   display: "flex",
   justifyContent: "center",
+  position: "relative",
+  zIndex: 1,
+  overflow: "visible",
+  marginLeft: "-20px",
+  marginRight: "-20px",
+  // 너비를 100% + 40px (좌우 20px씩)로 확장
+  width: "calc(100% + 40px)",
 });
 
 export const potContainer = style({
@@ -52,6 +62,7 @@ export const potContainer = style({
   justifyContent: "center",
   alignItems: "center",
   minHeight: "250px",
+  zIndex: 1,
 });
 
 export const potSvg = style({
@@ -89,12 +100,15 @@ export const inputSection = style({
   width: "100%",
   // maxWidth: "500px",
   marginBottom: "2rem",
+  position: "relative",
+  zIndex: 1,
 });
 
 export const hotSection = style({
   width: "100%",
-  marginBottom: "3rem",
-  
+  marginBottom: "2rem",
+  position: "relative",
+  zIndex: 1,
 });
 
 export const hotTitle = style({
@@ -154,21 +168,42 @@ export const hotName = style({
   margin: 0,
 });
 
-export const hotQuantity = style({
-  fontFamily: "Pretendard", // ensure fallback font
-  fontWeight: "500",
-  fontSize: "0.85rem",
-  color: "#666666",
+export const recipeCard = style({
+  aspectRatio: "1",
+  backgroundColor: "#e8e8e8",
+  borderRadius: "0.75rem",
 });
 
-export const hotState = style({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  minHeight: "120px",
-  borderRadius: "0.9rem",
-  backgroundColor: "#f7f7f7",
-  fontFamily: "Pretendard",
-  fontWeight: "500",
-  color: "#6a6a6a",
+export const backBlue = style({
+  position: "absolute",
+  top: "-20px",
+  right: "-30px",
+  width: "200px",
+  height: "auto",
+  zIndex: 0,
+  pointerEvents: "none",
+  "@media": {
+    "(max-width: 768px)": {
+      top: "-10px",
+      right: "-20px",
+      width: "150px",
+    },
+  },
+});
+
+export const backRed = style({
+  position: "absolute",
+  bottom: "-20px",
+  left: "-30px",
+  width: "180px",
+  height: "auto",
+  zIndex: 0,
+  pointerEvents: "none",
+  "@media": {
+    "(max-width: 768px)": {
+      bottom: "-10px",
+      left: "-20px",
+      width: "130px",
+    },
+  },
 });

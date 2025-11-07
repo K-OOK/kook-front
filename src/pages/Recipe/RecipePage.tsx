@@ -10,6 +10,8 @@ import SubmitBtn from "../../components/Buttons/SubmitBtn.tsx";
 import { apiClient } from "../../lib/axios";
 import type { TopIngredient } from "../../types/topIngredient";
 import HotIngredientsList from "../../components/recipe/HotIngredientsList";
+import backBlue from "../../assets/back-blue.svg";
+import backRed from "../../assets/back-red.svg";
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
@@ -29,7 +31,9 @@ export default function RecipePage() {
   } = useQuery<TopIngredient[]>({
     queryKey: ["topIngredients"],
     queryFn: async () => {
-      const response = await apiClient.get<TopIngredient[]>("/api/top-ingredients");
+      const response = await apiClient.get<TopIngredient[]>(
+        "/api/top-ingredients"
+      );
       return response.data;
     },
     staleTime: 1000 * 60,
@@ -44,7 +48,10 @@ export default function RecipePage() {
     }
 
     setIngredients((prev) => {
-      if (prev.length >= 3 || prev.some((item) => item.toLowerCase() === trimmed.toLowerCase())) {
+      if (
+        prev.length >= 3 ||
+        prev.some((item) => item.toLowerCase() === trimmed.toLowerCase())
+      ) {
         return prev;
       }
       return [...prev, trimmed];
@@ -59,7 +66,9 @@ export default function RecipePage() {
 
     setIngredients((prev) => {
       const lower = trimmed.toLowerCase();
-      const existingIndex = prev.findIndex((item) => item.toLowerCase() === lower);
+      const existingIndex = prev.findIndex(
+        (item) => item.toLowerCase() === lower
+      );
       if (existingIndex !== -1) {
         return prev.filter((_, index) => index !== existingIndex);
       }
@@ -71,6 +80,7 @@ export default function RecipePage() {
       return [...prev, trimmed];
     });
   }, []);
+  const [locale, setLocale] = useState<"ko" | "en">("ko");
 
   const handleAddIngredient = (ingredient: string) => {
     addIngredient(ingredient);
@@ -88,6 +98,8 @@ export default function RecipePage() {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
     console.log(ingredients);
+    console.log("Selected language:", locale);
+    console.log("Ingredients:", ingredients);
     setIsClosing(true);
     setTimeout(() => {
       setIsLoading(true);
@@ -95,14 +107,16 @@ export default function RecipePage() {
   };
 
   return (
-    <main className={styles.container}>
+    <main className={` ${styles.container}`}>
       <header className={styles.header}>
         <h1 className={styles.title}>
           Cook Korean food <br /> with the ingredients you have.
         </h1>
       </header>
 
-      <section className={styles.potSection}>
+      <section className={`${styles.potSection} `}>
+        <img src={backBlue} alt="" className={styles.backBlue} />
+        <img src={backRed} alt="" className={styles.backRed} />
         <div className={styles.potContainer}>
           <svg
             width="276"
@@ -183,6 +197,8 @@ export default function RecipePage() {
           ingredients={ingredients}
           onRemoveIngredient={handleRemoveIngredient}
           maxIngredients={3}
+          locale={locale}
+          onLocaleChange={setLocale}
         />
       </section>
 
