@@ -1,4 +1,8 @@
 import RecipeDetail from "../../components/Parser/RecipeDetail";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "../../lib/axios";
+import type { HotRecipeDetail } from "../../types/hotRecipeDetail";
+import { useParams } from "react-router-dom";
 
 const sample = {
   ranking: 10,
@@ -12,5 +16,19 @@ const sample = {
 };
 
 export default function TrendDetailPage() {
-  return <RecipeDetail data={sample} locale="en" />;
+  const { ranking } = useParams<{ ranking: string }>();
+  console.log(ranking);
+  const { data, isLoading, isError } = useQuery<HotRecipeDetail[]>({
+    queryKey: ["hotRecipesdetail"],
+    queryFn: async () => {
+      const response = await apiClient.get<HotRecipeDetail[]>(
+        `/api/hot-recipes/detail?ranking=${ranking}`
+      );
+      return response.data;
+    },
+  });
+
+  console.log(data);
+
+  return <RecipeDetail data={data[0]} locale="en" />;
 }

@@ -22,7 +22,7 @@ function App() {
           <Route path="/recipe" element={<RecipePage />} />
           <Route path="/recipe/result" element={<ResultPage />} />
           <Route path="/trend" element={<TrendPage />} />
-          <Route path="/trend/:id" element={<TrendDetailPage />} />
+          <Route path="/trend/:ranking" element={<TrendDetailPage />} />
         </Routes>
       </div>
     </div>

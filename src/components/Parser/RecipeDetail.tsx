@@ -12,10 +12,11 @@ type Props = {
   data: {
     ranking: number;
     recipe_name: string;
-    score: number;
-    recipe_detail_ko: string;
+    recipe_detail_ko?: string | null;
+    recipe_detail_en?: string | null;
     image_url?: string | null;
-    // recipe_detail_en 이 있으면 locale에 맞춰 쓰세요
+    description?: string | null;
+    cook_time?: string | number | null;
   };
   locale?: "ko" | "en";
 };
