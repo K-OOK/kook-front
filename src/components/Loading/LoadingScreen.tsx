@@ -17,13 +17,13 @@ export default function LoadingScreen({ isVisible }: LoadingScreenProps) {
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
       style={{
-        position: "absolute", // fixed에서 absolute로 변경
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,
         bottom: 0,
         width: "100%",
-        height: "100%",
+        height: "100vh",
         backgroundColor: "rgba(0, 0, 0, 0.7)",
         display: "flex",
         flexDirection: "column",
