@@ -3,6 +3,8 @@
 import { useState } from "react";
 import * as styles from "./RecipePage.css.ts";
 import IngredientInput from "../../components/Inputs/Ingredient/IngredientInput.tsx";
+import LoadingScreen from "../../components/Loading/LoadingScreen.tsx";
+import { motion } from "framer-motion";
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
@@ -12,6 +14,8 @@ const ingredientConfigs = [
 
 export default function RecipePage() {
   const [ingredients, setIngredients] = useState<string[]>([]);
+  const [isClosing, setIsClosing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleAddIngredient = (ingredient: string) => {
     if (ingredients.length < 3 && ingredient.trim()) {
@@ -23,6 +27,14 @@ export default function RecipePage() {
     setIngredients((prev) => prev.filter((_, i) => i !== index));
   };
 
+  const handleSubmit = () => {
+    console.log(ingredients);
+    setIsClosing(true);
+    setTimeout(() => {
+      setIsLoading(true);
+    }, 800);
+  };
+
   return (
     <main className={styles.container}>
       <header className={styles.header}>
@@ -32,7 +44,6 @@ export default function RecipePage() {
       </header>
 
       <section className={styles.potSection}>
-        {/* ✅ potContainer는 position: relative 여야 함 (styles에서 보장) */}
         <div className={styles.potContainer}>
           <svg
             width="276"
@@ -57,6 +68,29 @@ export default function RecipePage() {
             <rect y="10" width="39" height="16" rx="8" fill="#8A8A8A" />
             <rect x="237" y="10" width="39" height="16" rx="8" fill="#8A8A8A" />
           </svg>
+
+          {isClosing && (
+            <motion.svg
+              width="175"
+              height="41"
+              viewBox="0 0 175 41"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+              initial={{ y: -50, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              style={{
+                position: "absolute",
+                top: "5px",
+                zIndex: 10,
+              }}
+            >
+              <path
+                d="M89.001 0C91.7624 9.40606e-08 94.001 2.23858 94.001 5V12.0947C127.454 13.081 156.77 21.8251 175.002 41H0C18.7748 21.254 49.3041 12.5695 84.001 12.0273V5C84.001 2.23858 86.2396 1.20706e-07 89.001 0Z"
+                fill="#3B3B3B"
+              />
+            </motion.svg>
+          )}
 
           <div className={styles.ingredientsList}>
             {ingredients.map((ingredient, index) => {
@@ -98,7 +132,11 @@ export default function RecipePage() {
         </div>
       </section>
 
-      <button className={styles.cookButton}>Let's KOOK!</button>
+      <button className={styles.cookButton} onClick={handleSubmit}>
+        Let's KOOK!
+      </button>
+
+      <LoadingScreen isVisible={isLoading} />
     </main>
   );
 }

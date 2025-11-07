@@ -38,7 +38,7 @@ export const subtitle = style({
 });
 
 export const potSection = style({
-  marginBottom: "2rem",
+  //marginBottom: "2rem",
   width: "100%",
   display: "flex",
   justifyContent: "center",
