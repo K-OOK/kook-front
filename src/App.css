@@ -18,6 +18,7 @@
   background: #ffffff;
   overflow: scroll;
   position: relative;
+  padding: 0 20px;
 }
 
 /* PC 화면에서 스케일 조정 */
@@ -31,6 +32,7 @@
     overflow: scroll;
     margin: 0 auto;
     position: relative;
+    padding: 0 20px;
   }
 }
 
