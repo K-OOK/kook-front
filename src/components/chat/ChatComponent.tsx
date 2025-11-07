@@ -143,15 +143,21 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       setMessages((prev) => [...prev, userMessage, assistantPlaceholder]);
       setIsLoading(true);
 
+      // sanitize ingredients (trim, remove empty, limit to 3)
+      const parsed = parseIngredients(trimmed)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, 3);
+
       const ingredientsPayload = isFirstMessage
-        ? parseIngredients(trimmed)
+        ? parsed.length
+          ? parsed
+          : [trimmed]
         : [trimmed];
 
       const payload = {
         language,
-        ingredients: ingredientsPayload.length
-          ? ingredientsPayload
-          : [trimmed],
+        ingredients: ingredientsPayload,
         chat_history: payloadHistory,
       };
 
@@ -169,7 +175,11 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         });
 
         if (!response.ok) {
-          throw new Error(`API 요청 실패: ${response.status}`);
+          // 응답 텍스트 함께 로깅 및 에러 던지기
+          const text = await response.text().catch(() => "");
+          throw new Error(
+            `API 요청 실패: ${response.status} ${response.statusText} ${text}`
+          );
         }
 
         if (!response.body) {
@@ -181,24 +191,17 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
         while (true) {
           const { done, value } = await reader.read();
-          if (done) {
-            break;
-          }
-
+          if (done) break;
           collectedText += decoder.decode(value, { stream: true });
 
           setMessages((prev) => {
             const last = prev[prev.length - 1];
-            if (!last || last.id !== assistantPlaceholder.id) {
-              return prev;
-            }
-
+            if (!last || last.id !== assistantPlaceholder.id) return prev;
             const updated = [...prev];
             updated[updated.length - 1] = {
               ...last,
               content: collectedText,
             };
-
             return updated;
           });
         }
@@ -215,23 +218,16 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       } finally {
         setIsLoading(false);
         setMessages((prev) => {
-          if (!prev.length) {
-            return prev;
-          }
+          if (!prev.length) return prev;
           const updated = [...prev];
           const last = updated[updated.length - 1];
-
-          if (last.id !== assistantPlaceholder.id) {
-            return updated;
-          }
-
+          if (last.id !== assistantPlaceholder.id) return updated;
           updated[updated.length - 1] = {
             ...last,
             role: hasError ? "error" : "assistant",
             content: collectedText || (hasError ? "..." : ""),
             rawPayload: hasError ? "" : collectedText,
           };
-
           return updated;
         });
       }
@@ -281,7 +277,9 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         ))}
 
         {isLoading ? (
-          <div className={cn(chatMessage, typingIndicator)}>답변 생성 중...</div>
+          <div className={cn(chatMessage, typingIndicator)}>
+            답변 생성 중...
+          </div>
         ) : null}
 
         <div ref={endAnchorRef} />
@@ -309,5 +307,3 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 };
 
 export default ChatComponent;
-
-
