@@ -1,12 +1,14 @@
 import { style } from "@vanilla-extract/css";
 
 export const container = style({
-  //minHeight: "100vh",
+  maxWidth: "600px", // 최대 너비 600px 설정
+  width: "100%", // 전체 너비 사용
   display: "flex",
   flexDirection: "column",
   padding: "2rem 0",
   backgroundColor: "#ffffff",
-  overflowY: "auto",
+  overflowY: "scroll",
+  margin: "0 auto", // 중앙 정렬
 });
 
 export const header = style({
@@ -119,21 +121,4 @@ export const recipeCard = style({
   aspectRatio: "1",
   backgroundColor: "#e8e8e8",
   borderRadius: "0.75rem",
-});
-
-export const cookButton = style({
-  padding: "1.25rem 3rem",
-  backgroundColor: "#1a1a1a",
-  color: "white",
-  fontSize: "1.5rem",
-  fontWeight: "600",
-  border: "none",
-  borderRadius: "9999px",
-  cursor: "pointer",
-  marginTop: "1.25rem",
-  transition: "background-color 0.2s ease",
-  fontFamily: "Montserrat",
-  ":hover": {
-    backgroundColor: "#333333",
-  },
 });
