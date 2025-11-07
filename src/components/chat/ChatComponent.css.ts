@@ -9,8 +9,8 @@ export const chatContainer = style({
   margin: "0 auto",
   backgroundColor: "#ffffff",
   borderRadius: "24px",
-  boxShadow: "0 16px 36px rgba(38, 42, 58, 0.12)",
-  border: "1px solid rgba(38, 42, 58, 0.08)",
+  //boxShadow: "0 16px 36px rgba(38, 42, 58, 0.12)",
+  //border: "1px solid rgba(38, 42, 58, 0.08)",
   minHeight: "calc(100vh - 160px)",
   overflow: "hidden",
 });
@@ -47,8 +47,7 @@ export const assistantMessage = style({
 export const userMessage = style({
   alignSelf: "flex-end",
   marginLeft: "auto",
-  background:
-    "linear-gradient(135deg, rgba(35, 87, 227, 1) 0%, rgba(82, 132, 255, 1) 100%)",
+  background: "black",
   color: "#ffffff",
   padding: "14px 18px",
   borderRadius: "18px",
@@ -96,7 +95,7 @@ export const inputField = style({
   transition: "border 0.2s ease, box-shadow 0.2s ease",
   selectors: {
     "&:focus": {
-      border: "1px solid #5568ff",
+      border: "black",
       boxShadow: "0 0 0 3px rgba(85, 104, 255, 0.15)",
       backgroundColor: "#ffffff",
     },
@@ -115,8 +114,7 @@ export const sendButton = style({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  background:
-    "linear-gradient(135deg, rgba(35, 87, 227, 1) 0%, rgba(82, 132, 255, 1) 100%)",
+  background: "black",
   boxShadow: "0 8px 16px rgba(68, 105, 255, 0.35)",
   cursor: "pointer",
   transition: "transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease",
@@ -169,6 +167,116 @@ globalStyle(`${userMessage} p`, {
   textAlign: "right",
 });
 
+export const recipeMessage = style({
+  padding: "1.5rem",
+  backgroundColor: "#fff",
+  borderRadius: "16px",
+  margin: "0.5rem 0",
+  maxWidth: "85%",
+  alignSelf: "flex-start",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+  fontFamily: "Pretendard",
+});
 
+export const recipeTitle = style({
+  fontSize: "1.5rem",
+  fontWeight: "600",
+  color: "#111",
+  marginBottom: "1.5rem",
+});
 
+export const recipeSection = style({
+  marginTop: "2rem",
+  ":first-child": {
+    marginTop: "1rem",
+  },
+});
 
+export const sectionTitle = style({
+  fontSize: "1.2rem",
+  fontWeight: "600",
+  color: "#333",
+  marginBottom: "1rem",
+  display: "flex",
+  alignItems: "center",
+  gap: "0.5rem",
+});
+
+export const ingredientList = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.5rem",
+});
+
+export const ingredientItem = style({
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  padding: "0.75rem 1rem",
+  backgroundColor: "#f8f8f8",
+  borderRadius: "8px",
+});
+
+export const ingredientName = style({
+  fontWeight: "500",
+});
+
+export const ingredientAmount = style({
+  color: "#666",
+  fontSize: "0.9rem",
+});
+
+export const stepList = style({
+  display: "flex",
+  flexDirection: "column",
+  gap: "1rem",
+});
+
+export const stepItem = style({
+  padding: "1rem",
+  backgroundColor: "#f8f8f8",
+  borderRadius: "12px",
+});
+
+export const stepName = style({
+  fontWeight: "600",
+  marginBottom: "0.75rem",
+  color: "#111",
+});
+
+export const stepDescription = style({
+  color: "#444",
+  lineHeight: "1.6",
+  whiteSpace: "pre-wrap",
+});
+
+export const recommendationList = style({
+  padding: "0.75rem 1rem",
+  backgroundColor: "#f0f7ff",
+  borderRadius: "8px",
+});
+
+export const recommendationItem = style({
+  color: "#1a73e8",
+  lineHeight: "1.6",
+});
+
+export const tipBox = style({
+  marginTop: "2rem",
+  padding: "1rem",
+  backgroundColor: "#fff8e6",
+  borderRadius: "12px",
+});
+
+export const tipTitle = style({
+  fontSize: "1.1rem",
+  fontWeight: "600",
+  color: "#333",
+  marginBottom: "0.75rem",
+});
+
+export const tipContent = style({
+  color: "#664400",
+  lineHeight: "1.6",
+  whiteSpace: "pre-wrap",
+});

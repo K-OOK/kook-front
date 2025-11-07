@@ -13,15 +13,15 @@ import {
   assistantMessage,
   chatContainer,
   chatMessage,
-  errorMessage,
   inputField,
   inputForm,
   messagesBox,
   sendButton,
   sendIcon,
   typingIndicator,
-  userMessage,
 } from "./ChatComponent.css";
+import { parseRecipeMarkup, type ParsedRecipe } from "../../utils/recipeMarkup";
+import * as styles from "./ChatComponent.css";
 
 const API_BASE_URL =
   (import.meta.env.VITE_API_BASE_URL as string | undefined)?.replace(
@@ -52,28 +52,118 @@ const mapLanguage = (language?: string): string => {
   return normalized;
 };
 
-const ChatBubble: React.FC<{ message: ChatMessage }> = ({ message }) => {
-  if (message.role === "error") {
+// 컴포넌트명 충돌 방지: MessageItem으로 변경
+const MessageItem = ({ message }: { message: ChatMessage }) => {
+  const prevContentRef = useRef<string>("");
+  const [parsedContent, setParsedContent] = useState<ParsedRecipe | null>(null);
+
+  useEffect(() => {
+    if (
+      message.role !== "assistant" ||
+      message.content === prevContentRef.current
+    ) {
+      return;
+    }
+
+    prevContentRef.current = message.content;
+
+    // 불완전한 XML도 파싱 시도 (임시 닫기 태그 추가)
+    try {
+      const content = message.content.endsWith("</recipe>")
+        ? message.content
+        : `${message.content}</recipe>`;
+
+      const parsed = parseRecipeMarkup(content);
+      setParsedContent(parsed);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      // 파싱 실패시 null로 설정 (실시간 스트리밍 중일 수 있음)
+      setParsedContent(null);
+    }
+  }, [message.content]);
+
+  if (message.role === "user") {
     return (
-      <div className={cn(chatMessage, errorMessage)}>
-        {message.content || "문제가 발생했어요. 잠시 후 다시 시도해주세요."}
+      <div className={styles.userMessage}>
+        <p>
+          Please tell me a Korean recipe that can be made with {message.content}
+        </p>
       </div>
     );
   }
 
   if (message.role === "assistant") {
+    // 파싱 성공한 경우 구조화된 형태로 표시
+    if (parsedContent) {
+      return (
+        <div className={styles.recipeMessage}>
+          {parsedContent.title && (
+            <h3 className={styles.recipeTitle}>{parsedContent.title}</h3>
+          )}
+
+          {parsedContent.sections.map((section, idx) => (
+            <div key={idx} className={styles.recipeSection}>
+              <h4 className={styles.sectionTitle}>{section.title}</h4>
+
+              {"ingredients" in section && (
+                <div className={styles.ingredientList}>
+                  {section.ingredients.map((ingredient, i) => (
+                    <div key={i} className={styles.ingredientItem}>
+                      {ingredient}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {"steps" in section && (
+                <div className={styles.stepList}>
+                  {section.steps.map((step, i) => (
+                    <div key={i} className={styles.stepItem}>
+                      <div className={styles.stepName}>{step.name}</div>
+                      <p className={styles.stepDescription}>
+                        {step.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {"recommendation" in section && (
+                <div className={styles.recommendationList}>
+                  {section.recommendation.map((item, i) => (
+                    <div key={i}>{item}</div>
+                  ))}
+                </div>
+              )}
+
+              {"tip" in section && (
+                <div className={styles.tipBox}>
+                  <p className={styles.tipContent}>{section.tip}</p>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      );
+    }
+
+    // 파싱 실패시(또는 파싱 대기 중) 실시간 텍스트 출력
     return (
-      <div className={cn(chatMessage, assistantMessage)}>
-        <pre>{message.content || "..."}</pre>
+      <div className={styles.assistantMessage}>
+        <p>{message.content}</p>
       </div>
     );
   }
 
-  return (
-    <div className={cn(chatMessage, userMessage)}>
-      <p>{message.content}</p>
-    </div>
-  );
+  if (message.role === "error") {
+    return (
+      <div className={styles.errorMessage}>
+        <p>{message.content}</p>
+      </div>
+    );
+  }
+
+  return null;
 };
 
 const buildChatHistoryPayload = (
@@ -143,15 +233,21 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       setMessages((prev) => [...prev, userMessage, assistantPlaceholder]);
       setIsLoading(true);
 
+      // sanitize ingredients (trim, remove empty, limit to 3)
+      const parsed = parseIngredients(trimmed)
+        .map((s) => s.trim())
+        .filter(Boolean)
+        .slice(0, 3);
+
       const ingredientsPayload = isFirstMessage
-        ? parseIngredients(trimmed)
+        ? parsed.length
+          ? parsed
+          : [trimmed]
         : [trimmed];
 
       const payload = {
         language,
-        ingredients: ingredientsPayload.length
-          ? ingredientsPayload
-          : [trimmed],
+        ingredients: ingredientsPayload,
         chat_history: payloadHistory,
       };
 
@@ -169,7 +265,11 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         });
 
         if (!response.ok) {
-          throw new Error(`API 요청 실패: ${response.status}`);
+          // 응답 텍스트 함께 로깅 및 에러 던지기
+          const text = await response.text().catch(() => "");
+          throw new Error(
+            `API 요청 실패: ${response.status} ${response.statusText} ${text}`
+          );
         }
 
         if (!response.body) {
@@ -181,24 +281,17 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 
         while (true) {
           const { done, value } = await reader.read();
-          if (done) {
-            break;
-          }
-
+          if (done) break;
           collectedText += decoder.decode(value, { stream: true });
 
           setMessages((prev) => {
             const last = prev[prev.length - 1];
-            if (!last || last.id !== assistantPlaceholder.id) {
-              return prev;
-            }
-
+            if (!last || last.id !== assistantPlaceholder.id) return prev;
             const updated = [...prev];
             updated[updated.length - 1] = {
               ...last,
               content: collectedText,
             };
-
             return updated;
           });
         }
@@ -215,23 +308,16 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
       } finally {
         setIsLoading(false);
         setMessages((prev) => {
-          if (!prev.length) {
-            return prev;
-          }
+          if (!prev.length) return prev;
           const updated = [...prev];
           const last = updated[updated.length - 1];
-
-          if (last.id !== assistantPlaceholder.id) {
-            return updated;
-          }
-
+          if (last.id !== assistantPlaceholder.id) return updated;
           updated[updated.length - 1] = {
             ...last,
             role: hasError ? "error" : "assistant",
             content: collectedText || (hasError ? "..." : ""),
             rawPayload: hasError ? "" : collectedText,
           };
-
           return updated;
         });
       }
@@ -277,11 +363,13 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
         ) : null}
 
         {messages.map((message) => (
-          <ChatBubble key={message.id} message={message} />
+          <MessageItem key={message.id} message={message} />
         ))}
 
         {isLoading ? (
-          <div className={cn(chatMessage, typingIndicator)}>답변 생성 중...</div>
+          <div className={cn(chatMessage, typingIndicator)}>
+            Generating answer...
+          </div>
         ) : null}
 
         <div ref={endAnchorRef} />
@@ -295,8 +383,8 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           onChange={(event) => setInputValue(event.target.value)}
           placeholder={
             isLoading
-              ? "응답을 기다리는 중이에요..."
-              : "재료 혹은 질문을 입력해 주세요."
+              ? "Waiting for a response..."
+              : "Please enter your material or question."
           }
           disabled={isLoading}
         />
@@ -309,5 +397,3 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
 };
 
 export default ChatComponent;
-
-
