@@ -1,12 +1,15 @@
 import { useState } from "react";
 import SplashScreen from "../components/landing/SplashScreen";
+import Header from "../components/layout/Header";
 import landingRecipeImage from "../assets/landing_recipe.svg";
 import landingTrendingImage from "../assets/landing_trending.svg";
 import {
   ctaCard,
+  ctaCardTop,
   ctaEyebrow,
   ctaGrid,
   ctaIllustration,
+  ctaIllustrationWrapper,
   ctaTitle,
   dot,
   dotActive,
@@ -29,22 +32,18 @@ import {
 const LandingPage = () => {
   const [showSplash, setShowSplash] = useState(true);
 
-  if (showSplash) {
-    return <SplashScreen onComplete={() => setShowSplash(false)} />;
-  }
-
   const ctaItems = [
     {
       id: "personal",
-      eyebrow: "Cook Korean food with the ingredients you have.",
-      title: "Your own K-recipe",
+      eyebrow: "Cook Korean food\nwith the ingredients\nyou have.",
+      title: "Your own\nK-recipe",
       image: landingRecipeImage,
       alt: "Illustration of Korean sauce bottle",
     },
     {
       id: "trending",
-      eyebrow: "Check out the latest trending Korean recipes.",
-      title: "Trending Recipes",
+      eyebrow: "Check out\nthe latest trending\nKorean recipes.",
+      title: "Trending\nRecipes",
       image: landingTrendingImage,
       alt: "Illustration of bowl with chopsticks",
     },
@@ -52,6 +51,10 @@ const LandingPage = () => {
 
   return (
     <div className={landingRoot}>
+      {showSplash && (
+        <SplashScreen onComplete={() => setShowSplash(false)} />
+      )}
+      {!showSplash && <Header />}
       <main className={landingContent}>
         <section className={heroSection}>
           <h1 className={heroTitle}>
@@ -92,12 +95,16 @@ const LandingPage = () => {
         <section className={ctaGrid}>
           {ctaItems.map((item) => (
             <article key={item.id} className={ctaCard}>
-              <span className={ctaEyebrow}>{item.eyebrow}</span>
-              <img
-                className={ctaIllustration}
-                src={item.image}
-                alt={item.alt}
-              />
+              <div className={ctaCardTop}>
+                <span className={ctaEyebrow}>{item.eyebrow}</span>
+                <div className={ctaIllustrationWrapper}>
+                  <img
+                    className={ctaIllustration}
+                    src={item.image}
+                    alt={item.alt}
+                  />
+                </div>
+              </div>
               <h3 className={ctaTitle}>{item.title}</h3>
             </article>
           ))}
