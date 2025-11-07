@@ -12,6 +12,7 @@ import type { TopIngredient } from "../../types/topIngredient";
 import HotIngredientsList from "../../components/recipe/HotIngredientsList";
 import backBlue from "../../assets/back-blue.svg";
 import backRed from "../../assets/back-red.svg";
+import { useNavigate } from "react-router-dom";
 
 const ingredientConfigs = [
   { rotation: 2.87, position: { top: "30%", left: "25%" } },
@@ -23,6 +24,7 @@ export default function RecipePage() {
   const [ingredients, setIngredients] = useState<string[]>([]);
   const [isClosing, setIsClosing] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const {
     data: topIngredients,
@@ -91,19 +93,32 @@ export default function RecipePage() {
   };
 
   const handleSubmit = () => {
+    if (ingredients.length === 0) {
+      return;
+    }
+
     const mobileContainer = document.querySelector(".mobile-container");
     if (mobileContainer instanceof HTMLElement) {
       mobileContainer.scrollTo({ top: 0, behavior: "smooth" });
     } else {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
-    console.log(ingredients);
-    console.log("Selected language:", locale);
-    console.log("Ingredients:", ingredients);
     setIsClosing(true);
+    const selectedIngredients = [...ingredients];
+    const selectedLanguage = locale === "ko" ? "kor" : "eng";
+
     setTimeout(() => {
       setIsLoading(true);
     }, 800);
+
+    setTimeout(() => {
+      navigate("/chat", {
+        state: {
+          ingredients: selectedIngredients,
+          language: selectedLanguage,
+        },
+      });
+    }, 1200);
   };
 
   return (
