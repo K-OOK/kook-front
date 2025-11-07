@@ -1,0 +1,34 @@
+import RecipeDetail from "../../components/Parser/RecipeDetail";
+import { useQuery } from "@tanstack/react-query";
+import { apiClient } from "../../lib/axios";
+import type { HotRecipeDetail } from "../../types/hotRecipeDetail";
+import { useParams } from "react-router-dom";
+
+const sample = {
+  ranking: 10,
+  recipe_name: "seafood sundubu jjigae",
+  score: 2,
+  recipe_detail_ko:
+    "<recipe>\n<title>해산물 순두부찌개 (1인분 기준)</title>\n<section><title>1. 재료 🥣</title><ingredients>\n- 두부 (1/2모) \n- 오징어 (1/2마리)\n- 새우 (8마리)\n- 조갯살 (50g)\n- 물 (2컵)\n- 다시마육수 (1컵)\n- 고춧가루 (1.5큰술)\n- 마늘 (2쪽)\n</ingredients></section>\n<section><title>2. 조리 방법 🍳 (총 예상 시간: 20분)</title><steps>\n<step><name>1) 재료 손질 (예상 시간: 5분)</name><description>\n- 오징어와 새우는 껍질을 제거하고 몸통만 남긴다.\n- 조갯살은 기름을 제거하고 적당한 크기로 썬다.\n- 두부는 적당한 크기로 잘라둔다.\n- 마늘은 편을 내어 곱게 다진다.\n</description></step>\n<step><name>2) 찌개 끓이기 (예상 시간: 15분)</name><description>\n- 냄비에 물, 다시마육수, 고춧가루를 넣고 끓인다.\n- 마늘을 넣고 1분간 더 끓인다.\n- 오징어, 새우, 조갯살을 넣고 4-5분간 끓인다.\n- 두부를 넣고 2-3분간 더 끓여 마무리한다.\n</description></step>\n</steps></section>\n<section><title>3. 곁들여 먹으면 좋은 음료 🥂</title><recommendation>\n- 매실차\n</recommendation></section>\n<tip><title>💡 셰프의 꿀팁</title><content>\n- 다시마육수 대신 멸치육수를 사용해도 좋습니다.\n</content></tip>\n</recipe>",
+  recipe_detail_en:
+    "<recipe>\n<title>Seafood Sundubu Jjigae (For 1 Serving)</title>\n<section><title>1. Ingredients 🥣</title><ingredients>\n- Soft tofu (1 package)\n- Shrimp (100g, peeled and deveined)\n- Squid (100g, sliced into rings)\n- Clams or mussels (200g)\n- Onion (1/2, sliced)\n- Green onions (2 stalks, chopped)\n- Garlic (2 cloves, minced)\n- Gochugaru (Korean chili flakes) (2 tbsp)\n- Gochujang (Korean chili paste) (2 tbsp)\n- Sesame oil (1 tsp)\n- Water or anchovy stock (1 cup)\n</ingredients></section>\n<section><title>2. Cooking Instructions 🍳 (Total Estimated Time: 25 minutes)</title><steps>\n<step><name>1) Prepare the ingredients (Estimated Time: 10 minutes)</name><description>\n- Slice the onion, chop the green onions, and mince the garlic.\n- Peel and devein the shrimp, slice the squid into rings, and clean the clams or mussels.\n- Cut the soft tofu into bite-sized cubes.\n</description></step>\n<step><name>2) Cook the stew (Estimated Time: 15 minutes)</name><description>\n- In a heated pot, add sesame oil, garlic, and onion. Sauté for 1 minute.\n- Add the shrimp, squid, and clams/mussels. Cook for 2-3 minutes until the seafood starts to turn opaque.\n- Add the gochugaru, gochujang, and water/anchovy stock. Bring to a boil.\n- Carefully add the soft tofu cubes and half of the green onions. Gently stir.\n- Simmer for 5 minutes, adjusting seasoning if needed.\n</description></step>\n</steps></section>\n<section><title>3. Beverage Recommendation 🥂</title><recommendation>\n- Makgeolli (Korean rice wine)\n</recommendation></section>\n<tip><title>💡 Chef's Tip</title><content>\n- For an extra kick, add a teaspoon of gochugaru or gochujang towards the end for a spicier stew.\n</content></tip>\n</recipe>",
+  image_url: null,
+};
+
+export default function TrendDetailPage() {
+  const { ranking } = useParams<{ ranking: string }>();
+  console.log(ranking);
+  const { data, isLoading, isError } = useQuery<HotRecipeDetail[]>({
+    queryKey: ["hotRecipesdetail"],
+    queryFn: async () => {
+      const response = await apiClient.get<HotRecipeDetail[]>(
+        `/api/hot-recipes/detail?ranking=${ranking}`
+      );
+      return response.data;
+    },
+  });
+
+  console.log(data);
+
+  return <RecipeDetail data={data[0]} locale="en" />;
+}
