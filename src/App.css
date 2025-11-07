@@ -12,11 +12,11 @@
 }
 
 .mobile-container {
-  width: 100vw;
+  width: 100%;
   min-width: 320px; /* 최소 너비는 min-width */
   height: 100dvh;
   background: #ffffff;
-  overflow: hidden;
+  overflow: scroll;
   position: relative;
 }
 
