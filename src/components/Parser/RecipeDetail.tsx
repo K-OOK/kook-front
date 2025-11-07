@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import * as s from "./RecipeDetail.css";
 import {
   parseRecipeMarkup,
@@ -11,20 +12,28 @@ import IngredientIcon from "../../assets/ingredient-icon.svg";
 type Props = {
   data: {
     ranking: number;
-    recipe_name: string;
+    recipe_name?: string;
+    recipe_name_ko?: string | null;
+    recipe_name_en?: string | null;
     recipe_detail_ko?: string | null;
     recipe_detail_en?: string | null;
     image_url?: string | null;
     description?: string | null;
+    description_ko?: string | null;
+    description_en?: string | null;
     cook_time?: string | number | null;
   };
   locale?: "ko" | "en";
 };
 
-export default function RecipeDetail({ data, locale = "en" }: Props) {
-  const parsed: ParsedRecipe = parseRecipeMarkup(
-    locale === "ko" ? data.recipe_detail_ko : (data as any).recipe_detail_en
-  );
+export default function RecipeDetail({
+  data,
+  locale: initialLocale = "ko",
+}: Props) {
+  const [locale, setLocale] = useState<"ko" | "en">(initialLocale);
+  const recipeDetailContent =
+    locale === "ko" ? data.recipe_detail_ko || "" : data.recipe_detail_en || "";
+  const parsed: ParsedRecipe = parseRecipeMarkup(recipeDetailContent);
 
   const ingredientsSec = parsed.sections.find((sec) => "ingredients" in sec) as
     | Extract<Section, { ingredients: string[] }>
@@ -37,10 +46,50 @@ export default function RecipeDetail({ data, locale = "en" }: Props) {
   const tipSec = parsed.sections.find((sec) => "tip" in sec) as any;
   const recSec = parsed.sections.find((sec) => "recommendation" in sec) as any;
 
+  // 언어별 recipe_name: parsed.title 우선, 없으면 data에서 가져오기
+  const recipeName =
+    parsed.title ||
+    (locale === "ko"
+      ? data.recipe_name_ko || data.recipe_name
+      : data.recipe_name_en || data.recipe_name) ||
+    "";
+
+  // 언어별 description
+  const description =
+    locale === "ko"
+      ? data.description_ko || data.description
+      : data.description_en || data.description;
+
   return (
     <article className={s.wrap}>
-      <h1 className={s.h1}>{data.recipe_name}</h1>
-      <p className={s.sub}>{data.description}</p>
+      <h1 className={s.h1}>{recipeName}</h1>
+      {description && <p className={s.sub}>{description}</p>}
+      <button
+        className={s.langToggle}
+        type="button"
+        aria-pressed={locale === "ko"}
+        onClick={() => setLocale(locale === "ko" ? "en" : "ko")}
+      >
+        <span
+          className={s.langToggleOption}
+          data-active={locale === "ko" ? "true" : "false"}
+        >
+          kor
+        </span>
+        <span
+          className={s.langToggleOption}
+          data-active={locale === "en" ? "true" : "false"}
+        >
+          eng
+        </span>
+        <div
+          className={s.langToggleSlider}
+          aria-hidden
+          style={{
+            left: locale === "ko" ? "4px" : "calc(50% + 4px)",
+          }}
+        />
+      </button>
 
       <img
         className={s.heroImg}
@@ -48,7 +97,7 @@ export default function RecipeDetail({ data, locale = "en" }: Props) {
           data.image_url ??
           "https://images.unsplash.com/photo-1604908176997-431621d9e1d1?q=80&w=1200&auto=format&fit=crop"
         }
-        alt={data.recipe_name}
+        alt={recipeName}
       />
 
       {/* Ingredients */}

@@ -42,6 +42,7 @@ export const card = style({
   borderRadius: "12px",
   padding: "12px",
   background: "#f7f7f7",
+  whiteSpace: "pre-line",
 });
 
 export const chips = style({
@@ -129,4 +130,48 @@ export const ingredientAmount = style({
   color: "#1a1a1a",
   fontSize: "0.875rem",
   fontWeight: 500,
+});
+
+export const langToggle = style({
+  position: "relative",
+  display: "flex",
+  alignItems: "center",
+  padding: "4px",
+  width: "120px",
+  height: "40px",
+  backgroundColor: "#111827",
+  borderRadius: "999px",
+  border: "none",
+  cursor: "pointer",
+  color: "#fff",
+  boxSizing: "border-box",
+});
+
+export const langToggleOption = style({
+  position: "relative",
+  zIndex: 1,
+  width: "50%",
+  padding: "8px 0",
+  textAlign: "center",
+  fontSize: "16px",
+  fontWeight: 700,
+  color: "#ffffff99",
+  userSelect: "none",
+  selectors: {
+    "&[data-active='true']": {
+      color: "#000000",
+    },
+  },
+});
+
+export const langToggleSlider = style({
+  position: "absolute",
+  top: "4px",
+  width: "calc(50% - 8px)",
+  height: "calc(100% - 8px)",
+  backgroundColor: "#ffffff",
+  borderRadius: "999px",
+  boxShadow: "0 2px 6px rgba(0,0,0,0.15)",
+  zIndex: 0,
+  transition: "left 0.2s ease",
 });
