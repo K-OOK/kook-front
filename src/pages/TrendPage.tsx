@@ -33,7 +33,7 @@ const getRecipeDescription = (recipe: HotRecipe) => {
     return fallback;
   }
 
-  return plain.length > 90 ? `${plain.slice(0, 87)}...` : plain;
+  return plain;
 };
 
 const getCookTimeLabel = (recipe: HotRecipe) => {
