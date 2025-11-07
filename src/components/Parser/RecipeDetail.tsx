@@ -7,6 +7,10 @@ import {
 } from "../../utils/recipeMarkup";
 import StepsCarousel, { type Step } from "./StepsCarousel";
 import IngredientIcon from "../../assets/ingredient-icon.svg";
+import {
+  DEFAULT_RANKING_IMAGE,
+  getRankingImage,
+} from "../../utils/rankingImage";
 
 type Props = {
   data: {
@@ -44,10 +48,10 @@ export default function RecipeDetail({ data, locale = "en" }: Props) {
 
       <img
         className={s.heroImg}
-        src={
-          data.image_url ??
-          "https://images.unsplash.com/photo-1604908176997-431621d9e1d1?q=80&w=1200&auto=format&fit=crop"
-        }
+        src={getRankingImage(
+          data.ranking,
+          data.image_url ?? DEFAULT_RANKING_IMAGE
+        )}
         alt={data.recipe_name}
       />
 

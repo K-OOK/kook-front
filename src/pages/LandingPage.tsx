@@ -37,6 +37,10 @@ import {
   trendName,
 } from "../styles/landing.css";
 import type { HotRecipe } from "../types/hotRecipe";
+import {
+  DEFAULT_RANKING_IMAGE,
+  getRankingImage,
+} from "../utils/rankingImage";
 
 const getRecipeDescription = (recipe: HotRecipe) => {
   const fallback = "준비 중";
@@ -213,12 +217,15 @@ const LandingPage = () => {
                       : undefined
                   }
                 >
-              <img
-                className={trendImage}
-                    src={currentRecipe.image_url ?? ""}
+                  <img
+                    className={trendImage}
+                    src={getRankingImage(
+                      currentRecipe.ranking,
+                      currentRecipe.image_url ?? DEFAULT_RANKING_IMAGE
+                    )}
                     alt={currentRecipe.recipe_name}
                     loading="lazy"
-              />
+                  />
               <div className={trendInfo}>
                     <h3 className={trendName}>{currentRecipe.recipe_name}</h3>
                     <p className={trendDescription}>{getRecipeDescription(currentRecipe)}</p>
