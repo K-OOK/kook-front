@@ -147,6 +147,11 @@ const TrendRecipeModal = ({ recipe, onClose }: TrendRecipeModalProps) => {
     return [];
   }, [ingredientsSec, recipe.ingredients]);
 
+  // mobile-container 요소 찾기
+  const mobileContainer = document.querySelector(".mobile-container");
+
+  if (!mobileContainer) return null;
+
   return createPortal(
     <div
       className={modalOverlay}
@@ -238,7 +243,7 @@ const TrendRecipeModal = ({ recipe, onClose }: TrendRecipeModalProps) => {
         </footer>
       </div>
     </div>,
-    document.body
+    mobileContainer // document.body 대신 mobile-container를 타겟으로 지정
   );
 };
 

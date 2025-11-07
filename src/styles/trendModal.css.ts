@@ -2,27 +2,29 @@ import { style } from "@vanilla-extract/css";
 import { fontFamilies, fontWeights } from "./fonts.css";
 
 export const modalOverlay = style({
-  position: "fixed",
-  inset: 0,
-  backgroundColor: "rgba(0, 0, 0, 0.45)",
+  position: "absolute",
+  top: 0,
+  left: 0,
+  right: 0,
+  bottom: 0,
+  backgroundColor: "rgba(0, 0, 0, 0.5)",
   display: "flex",
-  alignItems: "center",
   justifyContent: "center",
-  padding: "16px",
+  alignItems: "center",
   zIndex: 1000,
 });
 
 export const modalContent = style({
-  width: "100%",
-  maxWidth: "560px",
-  backgroundColor: "#ffffff",
-  borderRadius: "24px",
-  boxShadow: "0 32px 60px rgba(0, 0, 0, 0.25)",
+  position: "relative",
+  width: "80%",
+  maxHeight: "80vh",
+  backgroundColor: "white",
+  borderRadius: "16px",
+  overflow: "scroll",
   display: "flex",
   flexDirection: "column",
   gap: "0px",
   padding: "28px 28px 32px",
-  position: "relative",
   color: "#111111",
 });
 
@@ -129,7 +131,7 @@ export const modalDescription = style({
 
 export const modalHeroImage = style({
   width: "100%",
-  aspectRatio: "16 / 10",
+  aspectRatio: "20 / 10",
   borderRadius: "16px",
   objectFit: "cover",
   marginBottom: "20px",
