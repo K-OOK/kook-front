@@ -281,3 +281,13 @@ export const tipContent = style({
   lineHeight: "1.6",
   whiteSpace: "pre-wrap",
 });
+
+export const recipeDescription = style({
+  fontSize: "1rem",
+  color: "#555",
+  lineHeight: "1.6",
+  marginBottom: "1.5rem",
+  padding: "1rem",
+  backgroundColor: "#f8f8f8",
+  borderRadius: "8px",
+});

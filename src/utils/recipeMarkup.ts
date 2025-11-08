@@ -7,73 +7,108 @@ export type Section =
 
 export type ParsedRecipe = {
   title: string;
+  message?: string; // 추가
   sections: Section[];
 };
 
-function text(t: string | null | undefined) {
-  return (t ?? "").trim();
-}
+export function parseRecipeMarkup(raw: string): ParsedRecipe {
+  // <template> 태그 추출
+  const templateMatch = raw.match(/<template>([\s\S]*?)<\/template>/);
+  const content = templateMatch ? templateMatch[1] : raw;
 
-export function parseRecipeMarkup(xmlLike: string): ParsedRecipe {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(xmlLike, "text/xml");
-
-  // 오류 방지
-  const title = text(doc.querySelector("recipe > title")?.textContent);
-
-  const sections: Section[] = [];
-  doc.querySelectorAll("recipe > section").forEach((sec) => {
-    const stitle = text(sec.querySelector(":scope > title")?.textContent);
-
-    // ingredients
-    const ing = sec.querySelector(":scope > ingredients");
-    if (ing) {
-      const lines =
-        ing.textContent
-          ?.split("\n")
-          .map((l) => l.replace(/^\s*-\s*/, "").trim())
-          .filter(Boolean) ?? [];
-      sections.push({ title: stitle || "ingredients", ingredients: lines });
-      return;
-    }
-
-    // steps
-    const stepsNode = sec.querySelector(":scope > steps");
-    if (stepsNode) {
-      const steps: Step[] = [];
-      stepsNode.querySelectorAll(":scope > step").forEach((s) => {
-        steps.push({
-          name: text(s.querySelector("name")?.textContent),
-          description: text(s.querySelector("description")?.textContent),
-        });
-      });
-      sections.push({ title: stitle || "Steps", steps });
-      return;
-    }
-
-    // recommendation
-    const recNode = sec.querySelector(":scope > recommendation");
-    if (recNode) {
-      const lines =
-        recNode.textContent
-          ?.split("\n")
-          .map((l) => l.replace(/^\s*-\s*/, "").trim())
-          .filter(Boolean) ?? [];
-      sections.push({
-        title: stitle || "Recommendation",
-        recommendation: lines,
-      });
-      return;
-    }
-  });
-
-  // <tip>은 section 밖에 있을 수 있음
-  const tipNode = doc.querySelector("recipe > tip");
-  if (tipNode) {
-    const ttitle = text(tipNode.querySelector("title")?.textContent) || "Tip";
-    const content = text(tipNode.querySelector("content")?.textContent);
-    if (content) sections.push({ title: ttitle, tip: content });
+  // <recipe> 태그 추출
+  const recipeMatch = content.match(/<recipe>([\s\S]*?)<\/recipe>/);
+  if (!recipeMatch) {
+    throw new Error("No <recipe> tag found");
   }
 
-  return { title, sections };
+  const recipeContent = recipeMatch[1];
+
+  // title 파싱
+  const titleMatch = recipeContent.match(/<title>\s*([\s\S]*?)\s*<\/title>/);
+  const title = titleMatch ? titleMatch[1].trim() : "";
+
+  // message 파싱 (선택적)
+  const messageMatch = recipeContent.match(
+    /<message>\s*([\s\S]*?)\s*<\/message>/
+  );
+  const message = messageMatch ? messageMatch[1].trim() : undefined;
+
+  // sections 파싱
+  const sectionMatches = recipeContent.matchAll(
+    /<section>([\s\S]*?)<\/section>/g
+  );
+  const sections: Section[] = [];
+
+  for (const sectionMatch of sectionMatches) {
+    const sectionContent = sectionMatch[1];
+    const sectionTitleMatch = sectionContent.match(
+      /<title>\s*([\s\S]*?)\s*<\/title>/
+    );
+    const sectionTitle = sectionTitleMatch ? sectionTitleMatch[1].trim() : "";
+
+    // ingredients 처리
+    const ingredientsMatch = sectionContent.match(
+      /<ingredients>\s*([\s\S]*?)\s*<\/ingredients>/
+    );
+    if (ingredientsMatch) {
+      const ingredients = ingredientsMatch[1]
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => line.startsWith("-"))
+        .map((line) => line.substring(1).trim());
+      sections.push({ title: sectionTitle, ingredients });
+      continue;
+    }
+
+    // steps 처리
+    const stepsMatch = sectionContent.match(/<steps>([\s\S]*?)<\/steps>/);
+    if (stepsMatch) {
+      const stepMatches = stepsMatch[1].matchAll(/<step>([\s\S]*?)<\/step>/g);
+      const steps: Step[] = [];
+      for (const stepMatch of stepMatches) {
+        const stepContent = stepMatch[1];
+        const nameMatch = stepContent.match(/<name>\s*([\s\S]*?)\s*<\/name>/);
+        const descMatch = stepContent.match(
+          /<description>\s*([\s\S]*?)\s*<\/description>/
+        );
+        steps.push({
+          name: nameMatch ? nameMatch[1].trim() : "",
+          description: descMatch ? descMatch[1].trim() : "",
+        });
+      }
+      sections.push({ title: sectionTitle, steps });
+      continue;
+    }
+
+    // recommendation 처리
+    const recommendationMatch = sectionContent.match(
+      /<recommendation>\s*([\s\S]*?)\s*<\/recommendation>/
+    );
+    if (recommendationMatch) {
+      const recommendation = recommendationMatch[1]
+        .split("\n")
+        .map((line) => line.trim())
+        .filter((line) => line.startsWith("-"))
+        .map((line) => line.substring(1).trim());
+      sections.push({ title: sectionTitle, recommendation });
+      continue;
+    }
+  }
+
+  // tip 처리
+  const tipMatch = recipeContent.match(/<tip>([\s\S]*?)<\/tip>/);
+  if (tipMatch) {
+    const tipContent = tipMatch[1];
+    const tipTitleMatch = tipContent.match(/<title>\s*([\s\S]*?)\s*<\/title>/);
+    const tipContentMatch = tipContent.match(
+      /<content>\s*([\s\S]*?)\s*<\/content>/
+    );
+    sections.push({
+      title: tipTitleMatch ? tipTitleMatch[1].trim() : "",
+      tip: tipContentMatch ? tipContentMatch[1].trim() : "",
+    });
+  }
+
+  return { title, message, sections };
 }

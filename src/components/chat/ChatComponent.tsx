@@ -67,17 +67,25 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
 
     prevContentRef.current = message.content;
 
-    // 불완전한 XML도 파싱 시도 (임시 닫기 태그 추가)
+    // 실시간으로 파싱 시도 - 불완전한 XML도 처리
     try {
-      const content = message.content.endsWith("</recipe>")
-        ? message.content
-        : `${message.content}</recipe>`;
+      let content = message.content;
 
-      const parsed = parseRecipeMarkup(content);
-      setParsedContent(parsed);
+      // <template> 태그가 시작되었으면 파싱 시도
+      if (content.includes("<template>") || content.includes("<recipe>")) {
+        // 닫는 태그가 없으면 임시로 추가
+        if (!content.includes("</template>")) {
+          content = content + "</recipe></template>";
+        } else if (!content.includes("</recipe>")) {
+          content = content + "</recipe>";
+        }
+
+        const parsed = parseRecipeMarkup(content);
+        setParsedContent(parsed);
+      }
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e) {
-      // 파싱 실패시 null로 설정 (실시간 스트리밍 중일 수 있음)
+      // 파싱 실패해도 무시 (스트리밍 중일 수 있음)
       setParsedContent(null);
     }
   }, [message.content]);
@@ -85,9 +93,7 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
   if (message.role === "user") {
     return (
       <div className={styles.userMessage}>
-        <p>
-          Please tell me a K-FOOD recipe that can be made with {message.content}
-        </p>
+        <p>{message.content}</p>
       </div>
     );
   }
@@ -98,6 +104,10 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
         <div className={styles.recipeMessage}>
           {parsedContent.title && (
             <h3 className={styles.recipeTitle}>{parsedContent.title}</h3>
+          )}
+
+          {parsedContent.message && (
+            <p className={styles.recipeDescription}>{parsedContent.message}</p>
           )}
 
           {parsedContent.sections.map((section, idx) => (
@@ -142,32 +152,12 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
               )}
             </div>
           ))}
-
-          {/* ✅ 여기가 추가: 최상위 tip 처리 */}
-          {parsedContent.tip && (
-            <div className={styles.tipBox}>
-              {parsedContent.tip.title && (
-                <h4 className={styles.sectionTitle}>
-                  {parsedContent.tip.title}
-                </h4>
-              )}
-              <p className={styles.tipContent}>{parsedContent.tip.content}</p>
-            </div>
-          )}
         </div>
       );
     }
 
     return (
       <div className={styles.assistantMessage}>
-        <p>{message.content}</p>
-      </div>
-    );
-  }
-
-  if (message.role === "error") {
-    return (
-      <div className={styles.errorMessage}>
         <p>{message.content}</p>
       </div>
     );
