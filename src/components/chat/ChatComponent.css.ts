@@ -12,7 +12,7 @@ export const chatContainer = style({
   //boxShadow: "0 16px 36px rgba(38, 42, 58, 0.12)",
   //border: "1px solid rgba(38, 42, 58, 0.08)",
   minHeight: "calc(100vh - 160px)",
-  overflow: "hidden",
+  overflow: "visible",
 });
 
 export const messagesBox = style({
