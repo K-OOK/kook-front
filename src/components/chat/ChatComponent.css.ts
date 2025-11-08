@@ -77,18 +77,18 @@ export const errorMessage = style({
 export const inputForm = style({
   display: "flex",
   alignItems: "center",
-  padding: "20px 24px",
-  gap: "12px",
+  padding: "20px 16px 24px",
+  gap: "8px",
   borderTop: "1px solid rgba(0, 0, 0, 0.06)",
   backgroundColor: "#ffffff",
 });
 
 export const inputField = style({
   flex: 1,
-  height: "52px",
+  height: "48px",
   borderRadius: "999px",
   border: "1px solid rgba(0, 0, 0, 0.08)",
-  padding: "0 20px",
+  padding: "0 18px",
   fontSize: "1rem",
   fontFamily: "Pretendard, sans-serif",
   outline: "none",
@@ -108,8 +108,8 @@ export const inputField = style({
 });
 
 export const sendButton = style({
-  width: "52px",
-  height: "52px",
+  width: "48px",
+  height: "48px",
   borderRadius: "50%",
   border: "none",
   display: "flex",
@@ -137,8 +137,8 @@ export const sendButton = style({
 });
 
 export const sendIcon = style({
-  width: "24px",
-  height: "24px",
+  width: "20px",
+  height: "20px",
 });
 
 export const typingIndicator = style({
