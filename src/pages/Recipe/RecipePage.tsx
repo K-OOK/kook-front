@@ -107,9 +107,9 @@ export default function RecipePage() {
     const selectedIngredients = [...ingredients];
     const selectedLanguage = locale === "ko" ? "kor" : "eng";
 
-    setTimeout(() => {
-      setIsLoading(true);
-    }, 800);
+    setIsLoading(true);
+
+    const TRANSITION_DELAY = 2000;
 
     setTimeout(() => {
       navigate("/chat", {
@@ -118,7 +118,7 @@ export default function RecipePage() {
           language: selectedLanguage,
         },
       });
-    }, 1200);
+    }, TRANSITION_DELAY);
   };
 
   return (

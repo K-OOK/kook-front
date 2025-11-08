@@ -1,14 +1,55 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
 import loadingImg from "../../assets/loading.svg";
 
 interface LoadingScreenProps {
   isVisible: boolean;
+  minimumDuration?: number;
 }
 
-export default function LoadingScreen({ isVisible }: LoadingScreenProps) {
-  if (!isVisible) return null;
+export default function LoadingScreen({
+  isVisible,
+  minimumDuration = 5000,
+}: LoadingScreenProps) {
+  const [shouldRender, setShouldRender] = useState(isVisible);
+  const visibleSinceRef = useRef<number | null>(isVisible ? Date.now() : null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    if (isVisible) {
+      visibleSinceRef.current = Date.now();
+      setShouldRender(true);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+      return;
+    }
+
+    const visibleSince = visibleSinceRef.current ?? Date.now();
+    const elapsed = Date.now() - visibleSince;
+    const remaining = Math.max(minimumDuration - elapsed, 0);
+
+    if (remaining === 0) {
+      setShouldRender(false);
+    } else {
+      timeoutRef.current = setTimeout(() => {
+        setShouldRender(false);
+        timeoutRef.current = null;
+      }, remaining);
+    }
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [isVisible, minimumDuration]);
+
+  if (!shouldRender) return null;
 
   return (
     <motion.div
