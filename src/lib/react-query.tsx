@@ -1,7 +1,7 @@
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { useState } from 'react';
-import type { ReactNode } from 'react';
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+// import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { useState } from "react";
+import type { ReactNode } from "react";
 
 interface ReactQueryProviderProps {
   children: ReactNode;
@@ -22,7 +22,7 @@ export const ReactQueryProvider = ({ children }: ReactQueryProviderProps) => {
             retry: 1,
             onError: (error) => {
               // 전역 에러 핸들링
-              console.error('Mutation error:', error);
+              console.error("Mutation error:", error);
             },
           },
         },
@@ -32,8 +32,7 @@ export const ReactQueryProvider = ({ children }: ReactQueryProviderProps) => {
   return (
     <QueryClientProvider client={queryClient}>
       {children}
-      {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />}
+      {/* {import.meta.env.DEV && <ReactQueryDevtools initialIsOpen={false} />} */}
     </QueryClientProvider>
   );
 };
-
