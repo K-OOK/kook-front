@@ -86,14 +86,13 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
     return (
       <div className={styles.userMessage}>
         <p>
-          Please tell me a Korean recipe that can be made with {message.content}
+          Please tell me a K-FOOD recipe that can be made with {message.content}
         </p>
       </div>
     );
   }
 
   if (message.role === "assistant") {
-    // 파싱 성공한 경우 구조화된 형태로 표시
     if (parsedContent) {
       return (
         <div className={styles.recipeMessage}>
@@ -143,11 +142,22 @@ const MessageItem = ({ message }: { message: ChatMessage }) => {
               )}
             </div>
           ))}
+
+          {/* ✅ 여기가 추가: 최상위 tip 처리 */}
+          {parsedContent.tip && (
+            <div className={styles.tipBox}>
+              {parsedContent.tip.title && (
+                <h4 className={styles.sectionTitle}>
+                  {parsedContent.tip.title}
+                </h4>
+              )}
+              <p className={styles.tipContent}>{parsedContent.tip.content}</p>
+            </div>
+          )}
         </div>
       );
     }
 
-    // 파싱 실패시(또는 파싱 대기 중) 실시간 텍스트 출력
     return (
       <div className={styles.assistantMessage}>
         <p>{message.content}</p>
@@ -384,7 +394,7 @@ const ChatComponent: React.FC<ChatComponentProps> = ({
           placeholder={
             isLoading
               ? "Waiting for a response..."
-              : "Please enter your material or question."
+              : "Please enter your material."
           }
           disabled={isLoading}
         />
